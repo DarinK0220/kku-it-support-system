@@ -164,7 +164,34 @@ Recommended badge styling:
 }
 ```
 
-## 4. Accessibility and Consistency
+## 4. Standard KKU Faculties & Departments Data
+
+Use a standardized, visible dropdown for KKU faculty, office, and department selection in forms. Avoid free-text inputs for this field so submitted records use consistent unit names. Keep this baseline list aligned with the university's current official directory when units are added, renamed, or reorganized.
+
+```html
+<label for="kku-unit">Faculty / Department</label>
+<select id="kku-unit" name="department" required>
+  <option value="" disabled selected>Select a KKU unit</option>
+  <option value="สำนักเทคโนโลยีดิจิทัล">สำนักเทคโนโลยีดิจิทัล</option>
+  <option value="สำนักบริหารและพัฒนาวิชาการ">สำ��ักบริหารและพัฒนาวิชาการ</option>
+  <option value="สำนักหอสมุด">สำนักหอสมุด</option>
+  <option value="คณะวิศวกรรมศาสตร์">คณะวิศวกรรมศาสตร์</option>
+  <option value="คณะวิทยาศาสตร์">คณะวิทยาศาสตร์</option>
+  <option value="คณะแพทยศาสตร์">คณะแพทยศาสตร์</option>
+  <option value="คณะพยาบาลศาสตร์">คณะพยาบาลศาสตร์</option>
+  <option value="คณะบริหารธุรกิจและการบัญชี">คณะบริหารธุรกิจและการบัญชี</option>
+  <option value="คณะมนุษยศาสตร์และสังคมศาสตร์">คณะมนุษยศาสตร์และสังคมศาสตร์</option>
+  <option value="คณะเกษตรศาสตร์">คณะเกษตรศาสตร์</option>
+  <option value="กองบริหารงานกลาง">กองบริหารงานกลาง</option>
+</select>
+```
+
+- Use each unit's Thai name as both the option value and displayed label to preserve a consistent canonical value.
+- Keep the prompt option empty and disabled so a user must select a unit.
+- Populate unit lists from a shared source or central configuration when multiple forms need the same options; do not maintain divergent copies across pages.
+- This is a baseline list for common KKU units, not a substitute for checking the current official university directory before production use.
+
+## 5. Accessibility and Consistency
 
 - Maintain WCAG-compatible text and UI contrast.
 - Do not communicate status by color alone; always include text or an icon.
