@@ -128,7 +128,7 @@ https://www.kku.ac.th/wp-content/uploads/2022/01/1.-official-logo-2022-27.png
 
 ### Status Badges
 
-Use compact badges with text that clearly identifies the status:
+Use compact badges with text that clearly identifies the statuses:
 
 | Status | Background | Text | Label Example |
 |---|---|---|---|
@@ -172,17 +172,19 @@ Use a standardized, visible dropdown for KKU faculty, office, and department sel
 <label for="kku-unit">Faculty / Department</label>
 <select id="kku-unit" name="department" required>
   <option value="" disabled selected>Select a KKU unit</option>
-  <option value="สำนักเทคโนโลยีดิจิทัล">สำนักเทคโนโลยีดิจิทัล</option>
-  <option value="สำนักบริหารและพัฒนาวิชาการ">สำนักบริหารและพัฒนาวิชาการ</option>
-  <option value="สำนักหอสมุด">สำนักหอสมุด</option>
-  <option value="คณะวิศวกรรมศาสตร์">คณะวิศวกรรมศาสตร์</option>
-  <option value="คณะวิทยาศาสตร์">คณะวิทยาศาสตร์</option>
-  <option value="คณะแพทยศาสตร์">คณะแพทยศาสตร์</option>
-  <option value="คณะพยาบาลศาสตร์">คณะพยาบาลศาสตร์</option>
-  <option value="คณะบริหารธุรกิจและการบัญชี">คณะบริหารธุรกิจและการบัญชี</option>
-  <option value="คณะมนุษยศาสตร์และสังคมศาสตร์">คณะมนุษยศาสตร์และสังคมศาสตร์</option>
   <option value="คณะเกษตรศาสตร์">คณะเกษตรศาสตร์</option>
-  <option value="กองบริหารงานกลาง">กองบริหารงานกลาง</option>
+  <option value="คณะเทคนิคการแพทย์">คณะเทคนิคการแพทย์</option>
+  <option value="คณะพยาบาลศาสตร์">คณะพยาบาลศาสตร์</option>
+  <option value="คณะพลังงานสิ่งแวดล้อมและวัสดุ">คณะพลังงานสิ่งแวดล้อมและวัสดุ</option>
+  <option value="คณะเภสัชศาสตร์">คณะเภสัชศาสตร์</option>
+  <option value="คณะมนุษยศาสตร์และสังคมศาสตร์">คณะมนุษยศาสตร์และสังคมศาสตร์</option>
+  <option value="คณะวิทยาศาสตร์">คณะวิทยาศาสตร์</option>
+  <option value="คณะวิศวกรรมศาสตร์">คณะวิศวกรรมศาสตร์</option>
+  <option value="คณะศิลปกรรมศาสตร์">คณะศิลปกรรมศาสตร์</option>
+  <option value="คณะสัตวแพทยศาสตร์">คณะสัตวแพทยศาสตร์</option>
+  <option value="คณะสาธารณสุขศาสตร์">คณะสาธารณสุขศาสตร์</option>
+  <option value="คณะอุตสาหกรรมเกษตร">คณะอุตสาหกรรมเกษตร</option>
+  <option value="บัณฑิตวิทยาลัย">บัณฑิตวิทยาลัย</option>
 </select>
 ```
 
@@ -191,7 +193,11 @@ Use a standardized, visible dropdown for KKU faculty, office, and department sel
 - Populate unit lists from a shared source or central configuration when multiple forms need the same options; do not maintain divergent copies across pages.
 - This is a baseline list for common KKU units, not a substitute for checking the current official university directory before production use.
 
-## 5. KKU Authentication Standard (OIDC / KKU SSO)
+## 5. Bilingual Support (TH / EN)
+
+KKU web applications must include a compact TH/EN language toggle button in the top navigation bar. Thai must be the default language, with instant switching that updates all UI labels, headers, and status badges between Thai and English.
+
+## 6. KKU Authentication Standard (OIDC / KKU SSO)
 
 KKU applications must authenticate users with Khon Kaen University's OpenID Connect (OIDC) / Google Workspace KKU SSO identity provider. Do not collect or manage university passwords in application forms.
 
@@ -204,7 +210,7 @@ KKU applications must authenticate users with Khon Kaen University's OpenID Conn
 - Simulated authentication must never be described as real university authentication or enabled for production.
 - On logout or role switch, clear the current application session, remove persisted session data, hide profile, email, role, and logout controls, and return to the welcome view.
 
-## 6. Accessibility and Consistency
+## 7. Accessibility and Consistency
 
 - Maintain WCAG-compatible text and UI contrast.
 - Do not communicate status by color alone; always include text or an icon.
