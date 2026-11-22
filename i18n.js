@@ -52,7 +52,7 @@ const TRANSLATIONS = {
     stats: {
       total: 'รายการทั้งหมด',
       pending: 'รอดำเนินการ',
-      inProgress: 'กำลังดำเนินการ',
+      inProgress: 'กำลังดำเนินก���ร',
       completed: 'เสร็จสิ้น'
     },
     allTickets: 'รายการแจ้งซ่อมทั้งหมด',
@@ -76,7 +76,7 @@ const TRANSLATIONS = {
       submit: 'ส่งคำขอแจ้งซ่อม',
       signOut: 'ออกจากระบบ',
       cancel: 'ยกเลิก',
-      saveNote: 'บันทึกหมายเหตุ',
+      saveNote: '��ันทึกหมายเหตุ',
       delete: 'ลบ',
       close: 'ปิด',
       updateStatus: 'อัปเดตสถานะ'
@@ -198,12 +198,14 @@ function translateDynamicContent(language) {
     if (translated && header.textContent !== translated) header.textContent = translated;
   });
 
-  document.querySelectorAll('.status-badge, select[data-status] option').forEach((element) => {
-    const status = element.matches('option') ? element.value : element.textContent.trim();
-    const key = STATUS_KEYS[status] || Object.keys(STATUS_KEYS).find((englishStatus) =>
-      TRANSLATIONS.th.statuses[STATUS_KEYS[englishStatus]] === status
+  document.querySelectorAll('.status-badge, select[data-status] option, #admin-status-filter option').forEach((element) => {
+    const value = element.matches('option') ? element.value : element.textContent.trim();
+    const key = STATUS_KEYS[value] ? value : STATUS_KEYS[value] || Object.keys(STATUS_KEYS).find((englishStatus) =>
+      TRANSLATIONS.th.statuses[STATUS_KEYS[englishStatus]] === value
     );
-    const translated = key ? translations.statuses[key] : null;
+    const translated = value === 'all'
+      ? translations.allStatuses
+      : key ? translations.statuses[key] : null;
     if (translated && element.textContent !== translated) element.textContent = translated;
   });
 
