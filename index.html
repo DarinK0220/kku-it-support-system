@@ -10,155 +10,17 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      color-scheme: light;
-      --brick: #A73B24;
-      --brick-dark: #7A2817;
-      --gold: #D4AF37;
-      --page: #F8F9FA;
-      --surface: #FFFFFF;
-      --text: #1F2937;
-      --muted: #64748B;
-      --line: rgba(31, 41, 55, .10);
-      --pending: #F59E0B;
-      --progress: #2563EB;
-      --completed: #16A34A;
-      --shadow: 0 4px 12px rgba(31, 41, 55, .08);
-      font-family: "Prompt", "Sarabun", "Inter", sans-serif;
-    }
-    * { box-sizing: border-box; }
-    body { margin: 0; background: var(--page); color: var(--text); font-size: 16px; line-height: 1.6; }
-    button, input, select, textarea { font: inherit; }
-    button, select { cursor: pointer; }
-    a { color: inherit; }
-    :focus-visible { outline: 3px solid rgba(212, 175, 55, .75); outline-offset: 3px; }
-    .topbar { background: var(--brick); color: white; border-bottom: 4px solid var(--gold); }
-    .topbar-inner { max-width: 1440px; margin: auto; padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
-    .brand { display: flex; align-items: center; gap: 14px; min-width: 0; }
-    .brand-logo { width: 48px; height: 48px; object-fit: contain; flex: 0 0 48px; }
-    .brand-copy { line-height: 1.35; }
-    .brand-university { font-size: 14px; color: rgba(255,255,255,.86); }
-    .brand-title { font-size: 18px; font-weight: 600; }
-    .top-nav { display: flex; align-items: center; gap: 8px; }
-    .top-nav a { text-decoration: none; color: white; padding: 8px 12px; border-radius: 7px; font-size: 14px; transition: background .18s ease; }
-    .top-nav a:hover { background: rgba(255,255,255,.13); }
-    .page { width: min(1440px, 100%); margin: 0 auto; padding: 30px 32px 48px; }
-    .intro { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; margin-bottom: 24px; }
-    .eyebrow { color: var(--brick); font-size: 13px; font-weight: 600; letter-spacing: .04em; margin: 0 0 4px; }
-    h1 { font-size: clamp(26px, 3vw, 34px); line-height: 1.3; margin: 0; font-weight: 700; }
-    .intro p:last-child { color: var(--muted); margin: 7px 0 0; }
-    .today { white-space: nowrap; color: var(--muted); font-size: 14px; padding-bottom: 5px; }
-    .layout { display: grid; grid-template-columns: minmax(280px, 350px) minmax(0, 1fr); align-items: start; gap: 24px; }
-    .card { background: var(--surface); border: 1px solid rgba(31,41,55,.08); border-radius: 12px; box-shadow: var(--shadow); }
-    .form-card { padding: 24px; }
-    .section-heading { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 20px; }
-    .heading-icon { width: 40px; height: 40px; flex: 0 0 40px; display: grid; place-items: center; border-radius: 10px; background: rgba(167,59,36,.09); color: var(--brick); }
-    .heading-icon svg { width: 21px; height: 21px; }
-    h2 { font-size: 21px; line-height: 1.35; margin: 0; font-weight: 700; }
-    .section-heading p { color: var(--muted); font-size: 13px; margin: 3px 0 0; }
-    .field { margin-bottom: 15px; }
-    label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
-    .required { color: var(--brick); }
-    input, select, textarea { display: block; width: 100%; color: var(--text); background: white; border: 1px solid #CBD5E1; border-radius: 8px; padding: 10px 12px; min-height: 44px; transition: border-color .15s, box-shadow .15s; }
-    textarea { min-height: 108px; resize: vertical; }
-    input::placeholder, textarea::placeholder { color: #94A3B8; }
-    input:hover, select:hover, textarea:hover { border-color: #94A3B8; }
-    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--brick); box-shadow: 0 0 0 3px rgba(167,59,36,.12); }
-    .button-primary { width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 46px; padding: 10px 16px; background: var(--brick); color: #fff; border: 1px solid var(--brick); border-radius: 8px; font-weight: 600; transition: background .15s, border-color .15s, transform .15s; }
-    .button-primary:hover { background: var(--brick-dark); border-color: var(--brick-dark); }
-    .button-primary:active { transform: translateY(1px); }
-    .button-primary:disabled { opacity: .6; cursor: not-allowed; }
-    .button-primary svg { width: 18px; height: 18px; }
-    .dashboard { min-width: 0; }
-    .dashboard-heading { display: flex; justify-content: space-between; align-items: center; margin: 0 0 15px; }
-    .dashboard-heading h2 { font-size: 24px; }
-    .live-label { display: inline-flex; align-items: center; gap: 7px; color: var(--muted); font-size: 13px; }
-    .live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--completed); box-shadow: 0 0 0 3px rgba(22,163,74,.12); }
-    .stats { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 14px; margin-bottom: 20px; }
-    .stat-card { padding: 17px 18px; position: relative; overflow: hidden; }
-    .stat-card:after { content: ""; position: absolute; right: 0; top: 0; width: 4px; height: 100%; background: var(--stat-color, var(--brick)); }
-    .stat-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; color: var(--muted); font-size: 13px; font-weight: 500; }
-    .stat-symbol { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 9px; color: var(--stat-color, var(--brick)); background: var(--stat-bg, rgba(167,59,36,.09)); }
-    .stat-symbol svg { width: 17px; height: 17px; }
-    .stat-number { font-size: 28px; font-weight: 700; line-height: 1.2; margin-top: 8px; }
-    .stat-caption { color: var(--muted); font-size: 12px; margin-top: 3px; }
-    .tickets-card { overflow: hidden; }
-    .tickets-toolbar { padding: 19px 20px 16px; display: flex; justify-content: space-between; align-items: center; gap: 16px; border-bottom: 1px solid var(--line); }
-    .tickets-toolbar h3 { font-size: 18px; font-weight: 600; margin: 0; }
-    .tickets-toolbar p { color: var(--muted); font-size: 13px; margin: 2px 0 0; }
-    .filters { display: flex; align-items: center; gap: 10px; }
-    .search-wrap { position: relative; width: min(240px, 28vw); }
-    .search-wrap svg { position: absolute; width: 17px; height: 17px; left: 11px; top: 50%; transform: translateY(-50%); color: #94A3B8; pointer-events: none; }
-    .search-wrap input { padding-left: 35px; min-height: 40px; font-size: 13px; }
-    .filters select { min-height: 40px; padding: 7px 30px 7px 10px; width: auto; min-width: 145px; font-size: 13px; }
-    .table-scroll { overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; text-align: left; min-width: 720px; }
-    th { padding: 12px 16px; color: #64748B; background: #F8FAFC; text-transform: uppercase; font-size: 11px; letter-spacing: .04em; font-weight: 600; white-space: nowrap; }
-    td { padding: 14px 16px; border-top: 1px solid var(--line); vertical-align: middle; font-size: 13px; }
-    tbody tr:hover { background: #FCFCFD; }
-    .ticket-id { color: var(--brick); font-weight: 600; white-space: nowrap; }
-    .reporter { font-weight: 500; }
-    .subtext { display: block; color: var(--muted); font-size: 12px; margin-top: 2px; }
-    .device-name { white-space: nowrap; }
-    .issue { max-width: 220px; }
-    .status-badge, .priority-badge { display: inline-flex; align-items: center; border-radius: 999px; padding: 4px 10px; font-size: 12px; font-weight: 600; line-height: 1.4; white-space: nowrap; }
-    .status-pending { background: var(--pending); color: #1F2937; }
-    .status-progress { background: var(--progress); color: #fff; }
-    .status-completed { background: var(--completed); color: #fff; }
-    .priority-high { color: #991B1B; background: #FEE2E2; }
-    .priority-medium { color: #92400E; background: #FEF3C7; }
-    .priority-low { color: #166534; background: #DCFCE7; }
-    .empty-state { text-align: center; color: var(--muted); padding: 42px 18px; }
-    .empty-state strong { display: block; color: var(--text); font-size: 15px; margin-bottom: 4px; }
-    .table-footer { display: flex; justify-content: space-between; gap: 12px; padding: 12px 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
-    .toast { position: fixed; right: 24px; bottom: 24px; z-index: 5; max-width: min(400px, calc(100vw - 32px)); padding: 13px 17px; color: #fff; background: #166534; border-radius: 10px; box-shadow: 0 8px 24px rgba(15,23,42,.2); opacity: 0; transform: translateY(10px); pointer-events: none; transition: opacity .2s, transform .2s; }
-    .toast.show { opacity: 1; transform: translateY(0); }
-    footer { margin-top: 28px; padding-top: 16px; border-top: 1px solid var(--line); text-align: center; color: var(--muted); font-size: 12px; }
-    @media (max-width: 1100px) {
-      .layout { grid-template-columns: minmax(260px, 310px) minmax(0,1fr); gap: 18px; }
-      .form-card { padding: 20px; }
-      .stats { gap: 10px; }
-      .stat-card { padding: 14px; }
-      .stat-top { font-size: 12px; }
-      .tickets-toolbar { align-items: flex-start; flex-direction: column; }
-      .filters { width: 100%; }
-      .search-wrap { width: 100%; }
-    }
-    @media (max-width: 820px) {
-      .topbar-inner { padding: 12px 20px; }
-      .page { padding: 25px 20px 36px; }
-      .layout { grid-template-columns: 1fr; }
-      .form-card { order: 2; }
-      .dashboard { order: 1; }
-      .stats { grid-template-columns: repeat(4, minmax(0,1fr)); }
-    }
-    @media (max-width: 560px) {
-      .topbar-inner { padding: 11px 16px; }
-      .brand-logo { width: 42px; height: 42px; flex-basis: 42px; }
-      .brand { gap: 10px; }
-      .brand-title { font-size: 14px; }
-      .brand-university { font-size: 11px; }
-      .top-nav { display: none; }
-      .page { padding: 21px 14px 30px; }
-      .intro { align-items: flex-start; flex-direction: column; gap: 7px; margin-bottom: 19px; }
-      h1 { font-size: 26px; }
-      .today { font-size: 12px; }
-      .dashboard-heading h2 { font-size: 21px; }
-      .stats { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; }
-      .stat-card { padding: 13px 14px; }
-      .stat-number { font-size: 25px; }
-      .stat-top { font-size: 12px; }
-      .filters { flex-direction: column; align-items: stretch; }
-      .search-wrap { width: 100%; }
-      .filters select { width: 100%; }
-      .tickets-toolbar { padding: 16px; }
-      .table-footer { align-items: flex-start; flex-direction: column; }
-      .form-card { padding: 19px 16px; }
-      .toast { right: 16px; bottom: 16px; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
-    }
+    :root{color-scheme:light;--brick:#A73B24;--brick-dark:#7A2817;--gold:#D4AF37;--page:#F8F9FA;--surface:#fff;--text:#1F2937;--muted:#64748B;--line:rgba(31,41,55,.1);--pending:#F59E0B;--progress:#2563EB;--completed:#16A34A;--shadow:0 4px 12px rgba(31,41,55,.08);font-family:"Prompt","Sarabun","Inter",sans-serif}
+    *{box-sizing:border-box}body{margin:0;background:var(--page);color:var(--text);font-size:16px;line-height:1.6}button,input,select,textarea{font:inherit}button,select{cursor:pointer}a{color:inherit}:focus-visible{outline:3px solid rgba(212,175,55,.65);outline-offset:3px}
+    .topbar{background:var(--brick);color:#fff;border-bottom:4px solid var(--gold)}.topbar-inner{width:min(1440px,100%);margin:auto;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:14px;min-width:0}.brand-logo{width:48px;height:48px;object-fit:contain;flex:0 0 48px}.brand-copy{line-height:1.35}.brand-university{font-size:14px;color:rgba(255,255,255,.86)}.brand-title{font-size:18px;font-weight:600}.session-info{display:flex;align-items:center;justify-content:flex-end;gap:12px}.session-user{text-align:right;font-size:13px;line-height:1.35}.session-user strong{display:block;font-size:14px}.role-badge{display:inline-flex;align-items:center;border:1px solid rgba(255,255,255,.38);border-radius:999px;padding:4px 10px;color:#fff;font-size:12px;font-weight:600;white-space:nowrap}.button-logout{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.55);border-radius:8px;padding:8px 12px;font-size:13px;font-weight:600}.button-logout:hover{background:rgba(255,255,255,.14)}
+    .page{width:min(1440px,100%);margin:auto;padding:30px 32px 48px}.welcome-wrap{max-width:970px;margin:42px auto 60px}.welcome-intro{text-align:center;margin:0 auto 28px}.welcome-intro .brand-logo{width:84px;height:84px;margin:0 auto 12px}.eyebrow{margin:0 0 5px;color:var(--brick);font-size:13px;font-weight:600;letter-spacing:.04em}.welcome-intro h1{font-size:clamp(28px,4vw,36px);line-height:1.3;margin:0;font-weight:700}.welcome-intro p{color:var(--muted);margin:8px 0 0}.welcome-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}.card{background:var(--surface);border:1px solid rgba(31,41,55,.08);border-radius:12px;box-shadow:var(--shadow)}.welcome-card{padding:26px}.card-heading{display:flex;align-items:flex-start;gap:13px;margin:0 0 20px}.heading-icon{width:42px;height:42px;flex:0 0 42px;display:grid;place-items:center;border-radius:10px;background:rgba(167,59,36,.09);color:var(--brick)}.heading-icon svg{width:21px;height:21px}.card-heading h2{font-size:21px;line-height:1.35;margin:0;font-weight:700}.card-heading p{color:var(--muted);font-size:13px;margin:3px 0 0}.field{margin-bottom:15px}label{display:block;font-size:14px;font-weight:600;margin-bottom:6px}.required{color:var(--brick)}input,select,textarea{display:block;width:100%;min-height:44px;padding:10px 12px;color:var(--text);background:#fff;border:1px solid #CBD5E1;border-radius:8px;transition:border-color .15s,box-shadow .15s}textarea{min-height:90px;resize:vertical}input::placeholder,textarea::placeholder{color:#94A3B8}input:hover,select:hover,textarea:hover{border-color:#94A3B8}input:focus,select:focus,textarea:focus{outline:none;border-color:var(--brick);box-shadow:0 0 0 3px rgba(167,59,36,.12)}
+    .button-primary,.button-secondary,.button-danger,.button-small{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:9px 16px;border:1px solid var(--brick);border-radius:8px;font-weight:600;text-decoration:none;transition:background .15s,border-color .15s,transform .15s}.button-primary{background:var(--brick);color:#fff}.button-primary:hover{background:var(--brick-dark);border-color:var(--brick-dark)}.button-primary:active,.button-secondary:active,.button-danger:active{transform:translateY(1px)}.button-primary:disabled,.button-secondary:disabled,.button-danger:disabled{opacity:.55;cursor:not-allowed}.button-secondary{background:#fff;color:var(--brick)}.button-secondary:hover{background:#FFF7F5}.button-danger{background:#fff;color:#B91C1C;border-color:#FCA5A5}.button-danger:hover{background:#FEF2F2;border-color:#B91C1C}.button-small{min-height:36px;padding:6px 11px;font-size:13px}.full-width{width:100%}.demo-note{margin:14px 0 0;padding:12px;background:#F8FAFC;border-radius:8px;color:var(--muted);font-size:13px}.demo-note strong{color:var(--text)}.view{display:none}.view.active{display:block}.page-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:22px}.page-heading h1{font-size:clamp(25px,3vw,32px);line-height:1.3;margin:0;font-weight:700}.page-heading p{color:var(--muted);margin:6px 0 0}.today{white-space:nowrap;color:var(--muted);font-size:14px;padding-bottom:5px}
+    .user-layout{display:grid;grid-template-columns:minmax(280px,360px) minmax(0,1fr);align-items:start;gap:22px}.form-card{padding:23px}.section-title{font-size:21px;line-height:1.35;margin:0;font-weight:700}.section-description{color:var(--muted);font-size:13px;margin:4px 0 18px}.tickets-card{overflow:hidden}.tickets-toolbar{padding:18px 20px;display:flex;justify-content:space-between;align-items:center;gap:16px;border-bottom:1px solid var(--line)}.tickets-toolbar h2{font-size:19px;margin:0;font-weight:600}.tickets-toolbar p{color:var(--muted);font-size:13px;margin:3px 0 0}.filter-controls{display:flex;align-items:center;gap:10px}.filter-controls input{min-width:210px;min-height:40px;padding:7px 10px;font-size:13px}.filter-controls select{width:auto;min-width:150px;min-height:40px;padding:7px 10px;font-size:13px}.table-scroll{overflow-x:auto}table{width:100%;border-collapse:collapse;text-align:left;min-width:760px}th{padding:12px 15px;background:#F8FAFC;color:#64748B;text-transform:uppercase;font-size:11px;letter-spacing:.04em;font-weight:600;white-space:nowrap}td{padding:13px 15px;border-top:1px solid var(--line);vertical-align:top;font-size:13px}tbody tr:hover{background:#FCFCFD}.ticket-id{color:var(--brick);font-weight:600;white-space:nowrap}.reporter{font-weight:500}.subtext{display:block;color:var(--muted);font-size:12px;margin-top:2px}.status-badge,.priority-badge{display:inline-flex;align-items:center;border-radius:999px;padding:4px 10px;font-size:12px;font-weight:600;line-height:1.4;white-space:nowrap}.status-pending{background:var(--pending);color:#1F2937}.status-progress{background:var(--progress);color:#fff}.status-completed{background:var(--completed);color:#fff}.priority-high{color:#991B1B;background:#FEE2E2}.priority-medium{color:#92400E;background:#FEF3C7}.priority-low{color:#166534;background:#DCFCE7}.empty-state{text-align:center;color:var(--muted);padding:38px 16px}.empty-state strong{display:block;color:var(--text);margin-bottom:4px}.table-footer{display:flex;justify-content:space-between;gap:12px;padding:11px 18px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}
+    .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:20px}.stat-card{padding:16px 18px;position:relative;overflow:hidden}.stat-card:after{content:"";position:absolute;right:0;top:0;width:4px;height:100%;background:var(--stat-color,var(--brick))}.stat-top{display:flex;align-items:center;justify-content:space-between;gap:8px;color:var(--muted);font-size:13px;font-weight:500}.stat-symbol{display:grid;place-items:center;width:32px;height:32px;border-radius:9px;color:var(--stat-color,var(--brick));background:var(--stat-bg,rgba(167,59,36,.09))}.stat-symbol svg{width:17px;height:17px}.stat-number{font-size:28px;font-weight:700;line-height:1.2;margin-top:8px}.stat-caption{color:var(--muted);font-size:12px;margin-top:3px}.admin-toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:17px 20px;border-bottom:1px solid var(--line)}.admin-toolbar h2{font-size:19px;margin:0;font-weight:600}.admin-toolbar p{color:var(--muted);font-size:13px;margin:3px 0 0}.admin-table{min-width:1050px}.admin-table td{vertical-align:middle}.admin-table select{width:150px;min-height:38px;padding:6px 9px;font-size:12px}.note-input{min-width:170px;min-height:38px;padding:7px 9px;font-size:12px}.action-cell{white-space:nowrap}.save-note{margin-top:5px}.toast{position:fixed;right:24px;bottom:24px;z-index:10;max-width:min(420px,calc(100vw - 32px));padding:13px 17px;color:#fff;background:#166534;border-radius:10px;box-shadow:0 8px 24px rgba(15,23,42,.2);opacity:0;transform:translateY(10px);pointer-events:none;transition:opacity .2s,transform .2s}.toast.show{opacity:1;transform:translateY(0)}footer{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:12px}.subtle-warning{padding:12px 14px;margin:0 0 18px;border-left:3px solid var(--gold);background:#FFFBEB;color:#713F12;border-radius:0 8px 8px 0;font-size:13px}
+    @media(max-width:1050px){.user-layout{grid-template-columns:300px minmax(0,1fr);gap:16px}.stats{gap:10px}.stat-card{padding:14px}.tickets-toolbar{align-items:flex-start;flex-direction:column}.filter-controls{width:100%}.filter-controls input{flex:1}}
+    @media(max-width:800px){.topbar-inner{padding:11px 20px}.page{padding:24px 20px 36px}.user-layout{grid-template-columns:1fr}.form-card{order:2}.my-tickets{order:1}.welcome-wrap{margin:25px auto 40px}.admin-toolbar{align-items:flex-start;flex-direction:column}}
+    @media(max-width:560px){.topbar-inner{padding:10px 14px}.brand{gap:9px}.brand-logo{width:40px;height:40px;flex-basis:40px}.brand-title{font-size:14px}.brand-university{font-size:10px}.session-info{gap:7px}.session-user{font-size:11px}.session-user strong{font-size:12px}.role-badge{font-size:10px;padding:3px 7px}.button-logout{font-size:11px;padding:6px 8px}.page{padding:20px 14px 30px}.welcome-wrap{margin:20px auto 32px}.welcome-cards{grid-template-columns:1fr;gap:14px}.welcome-card{padding:21px 17px}.welcome-intro .brand-logo{width:68px;height:68px}.welcome-intro h1{font-size:27px}.page-heading{align-items:flex-start;flex-direction:column;gap:6px}.page-heading h1{font-size:25px}.today{font-size:12px}.stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.stat-card{padding:13px}.stat-top{font-size:12px}.stat-number{font-size:25px}.filter-controls{align-items:stretch;flex-direction:column}.filter-controls input,.filter-controls select{width:100%;min-width:0}.tickets-toolbar,.admin-toolbar{padding:15px}.form-card{padding:19px 16px}.table-footer{align-items:flex-start;flex-direction:column}.toast{right:16px;bottom:16px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}}
   </style>
 </head>
 <body>
@@ -166,213 +28,151 @@
     <div class="topbar-inner">
       <div class="brand" aria-label="Khon Kaen University IT Support">
         <img class="brand-logo" src="https://www.kku.ac.th/wp-content/uploads/2022/01/1.-official-logo-2022-27.png" alt="Khon Kaen University logo">
-        <div class="brand-copy">
-          <div class="brand-university">มหาวิทยาลัยขอนแก่น · Khon Kaen University</div>
-          <div class="brand-title">สำนักเทคโนโลยีดิจิทัล</div>
-        </div>
+        <div class="brand-copy"><div class="brand-university">มหาวิทยาลัยขอนแก่น · Khon Kaen University</div><div class="brand-title">สำนักเทคโนโลยีดิจิทัล</div></div>
       </div>
-      <nav class="top-nav" aria-label="Main navigation">
-        <a href="#dashboard">ภาพรวมระบบ</a>
-        <a href="#submit-ticket">แจ้งซ่อม</a>
-      </nav>
+      <div class="session-info" id="session-info" hidden>
+        <div class="session-user"><strong id="session-name"></strong><span id="session-department"></span></div>
+        <span class="role-badge" id="role-badge"></span>
+        <button class="button-logout" id="logout-button" type="button">ออกจากระบบ</button>
+      </div>
     </div>
   </header>
 
   <main class="page">
-    <section class="intro" aria-labelledby="page-title">
-      <div>
-        <p class="eyebrow">DIGITAL TECHNOLOGY OFFICE · KHON KAEN UNIVERSITY</p>
-        <h1 id="page-title">KKU IT Support &amp; Ticketing System</h1>
-        <p>ระบบแจ้งซ่อมอุปกรณ์ไอที สำนักเทคโนโลยีดิจิทัล มข.</p>
+    <section class="view active" id="welcome-view" aria-labelledby="welcome-title">
+      <div class="welcome-wrap">
+        <div class="welcome-intro">
+          <img class="brand-logo" src="https://www.kku.ac.th/wp-content/uploads/2022/01/1.-official-logo-2022-27.png" alt="Khon Kaen University logo">
+          <p class="eyebrow">DIGITAL TECHNOLOGY OFFICE · KHON KAEN UNIVERSITY</p>
+          <h1 id="welcome-title">KKU IT Support &amp; Ticketing System</h1>
+          <p>ระบบแจ้งซ่อมอุปกรณ์ไอที สำนักเทคโนโลยีดิจิทัล มหาวิทยาลัยขอนแก่น</p>
+        </div>
+        <div class="welcome-cards">
+          <section class="card welcome-card" aria-labelledby="user-login-title">
+            <div class="card-heading"><div class="heading-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div><div><h2 id="user-login-title">ผู้ใช้งานทั่วไป</h2><p>บุคลากร / นักศึกษา · เข้าสู่ระบบเพื่อแจ้งซ่อม</p></div></div>
+            <form id="user-login-form">
+              <div class="field"><label for="login-name">ชื่อ-นามสกุล <span class="required">*</span></label><input id="login-name" name="name" autocomplete="name" placeholder="กรอกชื่อของคุณ" maxlength="80" required></div>
+              <div class="field"><label for="login-department">คณะ / หน่วยงาน <span class="required">*</span></label><input id="login-department" name="department" placeholder="เช่น คณะวิศวกรรมศาสตร์" maxlength="100" required></div>
+              <button class="button-primary full-width" type="submit">เข้าสู่ระบบผู้ใช้งาน</button>
+            </form>
+          </section>
+          <section class="card welcome-card" aria-labelledby="admin-login-title">
+            <div class="card-heading"><div class="heading-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 7v5c0 5 3.4 8 8 9 4.6-1 8-4 8-9V7l-8-4Z"/><path d="m9 12 2 2 4-4"/></svg></div><div><h2 id="admin-login-title">นักวิชาการคอมพิวเตอร์</h2><p>ผู้ดูแลระบบ · จัดการคำร้องและสถานะงานซ่อม</p></div></div>
+            <p class="subtle-warning">เข้าสู่โหมดสาธิตผู้ดูแลระบบเพื่อทดลองจัดการ ticket และเพิ่มบันทึกช่าง</p>
+            <button class="button-primary full-width" id="admin-login-button" type="button">Login as KKU IT Staff</button>
+            <p class="demo-note"><strong>Role badge:</strong> IT Admin · นักวิชาการคอมพิวเตอร์<br>ข้อมูลตัวอย่างและคำร้องใหม่จะถูกบันทึกไว้ใน localStorage ของเบราว์เซอร์นี้</p>
+          </section>
+        </div>
       </div>
-      <div class="today" id="today-label" aria-live="polite"></div>
     </section>
 
-    <div class="layout">
-      <section class="card form-card" id="submit-ticket" aria-labelledby="form-title">
-        <div class="section-heading">
-          <div class="heading-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></div>
-          <div>
-            <h2 id="form-title">Submit Repair Ticket</h2>
-            <p>กรอกรายละเอียดเพื่อแจ้งปัญหาอุปกรณ์</p>
-          </div>
-        </div>
-        <form id="ticket-form">
-          <div class="field">
-            <label for="reporter">Reporter Name <span class="required" aria-label="required">*</span></label>
-            <input id="reporter" name="reporter" type="text" autocomplete="name" placeholder="ชื่อ-นามสกุล" required maxlength="80">
-          </div>
-          <div class="field">
-            <label for="department">Faculty / Department <span class="required" aria-label="required">*</span></label>
-            <input id="department" name="department" type="text" placeholder="เช่น คณะวิศวกรรมศาสตร์" required maxlength="100">
-          </div>
-          <div class="field">
-            <label for="device">Device Type <span class="required" aria-label="required">*</span></label>
-            <select id="device" name="device" required>
-              <option value="" disabled selected>เลือกประเภทอุปกรณ์</option>
-              <option>คอมพิวเตอร์ตั้งโต๊ะ</option>
-              <option>คอมพิวเตอร์โน้ตบุ๊ก</option>
-              <option>เครื่องพิมพ์</option>
-              <option>โปรเจกเตอร์ / จอภาพ</option>
-              <option>เครือข่าย / Wi-Fi</option>
-              <option>อุปกรณ์อื่น ๆ</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="issue">Issue Description <span class="required" aria-label="required">*</span></label>
-            <textarea id="issue" name="issue" placeholder="อธิบายอาการหรือปัญหาที่พบ" required maxlength="500"></textarea>
-          </div>
-          <div class="field">
-            <label for="priority">Priority <span class="required" aria-label="required">*</span></label>
-            <select id="priority" name="priority" required>
-              <option value="Medium" selected>ปานกลาง · Medium</option>
-              <option value="High">สูง · High</option>
-              <option value="Low">ต่ำ · Low</option>
-            </select>
-          </div>
-          <button class="button-primary" type="submit">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="m22 2-7 20-4-9-9-4Z"/></svg>
-            Submit Ticket · ส่งแจ้งซ่อม
-          </button>
-        </form>
-      </section>
-
-      <section class="dashboard" id="dashboard" aria-labelledby="dashboard-title">
-        <div class="dashboard-heading">
-          <h2 id="dashboard-title">Ticket Dashboard</h2>
-          <span class="live-label"><span class="live-dot" aria-hidden="true"></span>ข้อมูลตัวอย่าง</span>
-        </div>
-        <div class="stats" aria-label="Ticket summary">
-          <article class="card stat-card" style="--stat-color:#A73B24;--stat-bg:rgba(167,59,36,.09)">
-            <div class="stat-top"><span>Total Tickets</span><span class="stat-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></svg></span></div>
-            <div class="stat-number" id="total-count">0</div><div class="stat-caption">รายการแจ้งซ่อมทั้งหมด</div>
-          </article>
-          <article class="card stat-card" style="--stat-color:#B7791F;--stat-bg:#FEF3C7">
-            <div class="stat-top"><span>Pending</span><span class="stat-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span></div>
-            <div class="stat-number" id="pending-count">0</div><div class="stat-caption">รอดำเนินการ</div>
-          </article>
-          <article class="card stat-card" style="--stat-color:#2563EB;--stat-bg:#DBEAFE">
-            <div class="stat-top"><span>In Progress</span><span class="stat-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.64 5.64l2.12 2.12m8.48 8.48 2.12 2.12m0-12.72-2.12 2.12m-8.48 8.48-2.12 2.12"/><circle cx="12" cy="12" r="5"/></svg></span></div>
-            <div class="stat-number" id="progress-count">0</div><div class="stat-caption">กำลังดำเนินการ</div>
-          </article>
-          <article class="card stat-card" style="--stat-color:#16A34A;--stat-bg:#DCFCE7">
-            <div class="stat-top"><span>Completed</span><span class="stat-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4L19 6"/><circle cx="12" cy="12" r="10"/></svg></span></div>
-            <div class="stat-number" id="completed-count">0</div><div class="stat-caption">ดำเนินการเสร็จแล้ว</div>
-          </article>
-        </div>
-
-        <section class="card tickets-card" aria-labelledby="tickets-title">
-          <div class="tickets-toolbar">
-            <div>
-              <h3 id="tickets-title">รายการแจ้งซ่อม</h3>
-              <p>ติดตามสถานะคำร้องของบุคลากรและหน่วยงาน</p>
-            </div>
-            <div class="filters" role="search" aria-label="Filter tickets">
-              <div class="search-wrap">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
-                <input id="search-input" type="search" placeholder="ค้นหาชื่อ, อุปกรณ์..." aria-label="ค้นหาคำร้อง">
-              </div>
-              <select id="status-filter" aria-label="กรองตามสถานะ">
-                <option value="all">ทุกสถานะ</option>
-                <option value="Pending">รอดำเนินการ</option>
-                <option value="In Progress">กำลังดำเนินการ</option>
-                <option value="Completed">เสร็จสิ้น</option>
-              </select>
-            </div>
-          </div>
-          <div class="table-scroll">
-            <table>
-              <thead><tr><th scope="col">Ticket ID</th><th scope="col">ผู้แจ้ง / หน่วยงาน</th><th scope="col">อุปกรณ์ / รายละเอียด</th><th scope="col">ความสำคัญ</th><th scope="col">วันที่แจ้ง</th><th scope="col">สถานะ</th></tr></thead>
-              <tbody id="ticket-rows"></tbody>
-            </table>
-            <div class="empty-state" id="empty-state" hidden><strong>ไม่พบรายการแจ้งซ่อม</strong>ลองปรับคำค้นหาหรือตัวกรองสถานะ</div>
-          </div>
-          <div class="table-footer"><span id="result-count" aria-live="polite"></span><span>แสดงรายการล่าสุดก่อน</span></div>
+    <section class="view" id="user-view" aria-labelledby="user-page-title">
+      <div class="page-heading"><div><p class="eyebrow">USER PORTAL · KKU IT SUPPORT</p><h1 id="user-page-title">พอร์ทัลแจ้งซ่อมอุปกรณ์ไอที</h1><p>สร้างคำร้องและติดตามสถานะการซ่อมของคุณ</p></div><div class="today" id="user-date"></div></div>
+      <div class="user-layout">
+        <section class="card form-card" aria-labelledby="create-ticket-title">
+          <h2 class="section-title" id="create-ticket-title">Create Repair Ticket</h2>
+          <p class="section-description">แจ้งซ่อมอุปกรณ์ไอที · กรุณาระบุข้อมูลให้ครบถ้วน</p>
+          <form id="ticket-form">
+            <div class="field"><label for="device-type">Device Type <span class="required">*</span></label><select id="device-type" name="device" required><option value="" disabled selected>เลือกประเภทอุปกรณ์</option><option>คอมพิวเตอร์ตั้งโต๊ะ</option><option>คอมพิวเตอร์โน้ตบุ๊ก</option><option>เครื่องพิมพ์</option><option>โปรเจกเตอร์ / จอภาพ</option><option>เครือข่าย / Wi-Fi</option><option>อุปกรณ์อื่น ๆ</option></select></div>
+            <div class="field"><label for="location">Location / Building <span class="required">*</span></label><input id="location" name="location" placeholder="อาคาร / ชั้น / ห้อง" maxlength="120" required></div>
+            <div class="field"><label for="issue">Issue Description <span class="required">*</span></label><textarea id="issue" name="issue" placeholder="อธิบายอาการหรือปัญหาที่พบ" maxlength="500" required></textarea></div>
+            <div class="field"><label for="priority">Priority <span class="required">*</span></label><select id="priority" name="priority" required><option value="Medium" selected>ปานกลาง · Medium</option><option value="High">สูง · High</option><option value="Low">ต่ำ · Low</option></select></div>
+            <button class="button-primary full-width" type="submit">ส่งคำร้องแจ้งซ่อม</button>
+          </form>
         </section>
+        <section class="card tickets-card my-tickets" aria-labelledby="my-tickets-title">
+          <div class="tickets-toolbar"><div><h2 id="my-tickets-title">My Tickets</h2><p>รายการแจ้งซ่อมของคุณ · สามารถยกเลิกได้เมื่อยังรอดำเนินการ</p></div><span class="role-badge" style="background:#A73B24">ผู้ใช้งานทั่วไป</span></div>
+          <div class="table-scroll"><table><thead><tr><th scope="col">Ticket ID</th><th scope="col">อุปกรณ์ / รายละเอียด</th><th scope="col">สถานที่</th><th scope="col">สถานะ</th><th scope="col">หมายเหตุช่าง</th><th scope="col">การจัดการ</th></tr></thead><tbody id="my-ticket-rows"></tbody></table><div class="empty-state" id="my-empty" hidden><strong>ยังไม่มีรายการแจ้งซ่อม</strong>สร้างคำร้องใหม่จากแบบฟอร์มด้านซ้าย</div></div>
+          <div class="table-footer"><span id="my-ticket-count" aria-live="polite"></span><span>รายการของผู้ใช้งานปัจจุบัน</span></div>
+        </section>
+      </div>
+    </section>
+
+    <section class="view" id="admin-view" aria-labelledby="admin-page-title">
+      <div class="page-heading"><div><p class="eyebrow">IT ADMIN · DIGITAL TECHNOLOGY OFFICE</p><h1 id="admin-page-title">Ticket Administration</h1><p>ภาพรวมและจัดการคำร้องแจ้งซ่อมของมหาวิทยาลัย</p></div><div class="today" id="admin-date"></div></div>
+      <div class="stats" aria-label="Ticket summary">
+        <article class="card stat-card" style="--stat-color:#A73B24;--stat-bg:rgba(167,59,36,.09)"><div class="stat-top"><span>Total Tickets</span><span class="stat-symbol" aria-hidden="true">▤</span></div><div class="stat-number" id="total-count">0</div><div class="stat-caption">รายการแจ้งซ่อมทั้งหมด</div></article>
+        <article class="card stat-card" style="--stat-color:#B7791F;--stat-bg:#FEF3C7"><div class="stat-top"><span>Pending</span><span class="stat-symbol" aria-hidden="true">◷</span></div><div class="stat-number" id="pending-count">0</div><div class="stat-caption">รอดำเนินการ</div></article>
+        <article class="card stat-card" style="--stat-color:#2563EB;--stat-bg:#DBEAFE"><div class="stat-top"><span>In Progress</span><span class="stat-symbol" aria-hidden="true">◌</span></div><div class="stat-number" id="progress-count">0</div><div class="stat-caption">กำลังดำเนินการ</div></article>
+        <article class="card stat-card" style="--stat-color:#16A34A;--stat-bg:#DCFCE7"><div class="stat-top"><span>Completed</span><span class="stat-symbol" aria-hidden="true">✓</span></div><div class="stat-number" id="completed-count">0</div><div class="stat-caption">ดำเนินการเสร็จแล้ว</div></article>
+      </div>
+      <section class="card tickets-card" aria-labelledby="all-tickets-title">
+        <div class="admin-toolbar"><div><h2 id="all-tickets-title">จัดการรายการแจ้งซ่อมทั้งหมด</h2><p>ปรับสถานะ เพิ่มหมายเหตุช่าง หรือลบรายการที่ไม่ต้องการ</p></div><div class="filter-controls"><input id="admin-search" type="search" aria-label="ค้นหาคำร้อง" placeholder="ค้นหา ID, ผู้แจ้ง, อุปกรณ์..."/><select id="admin-status-filter" aria-label="กรอง ticket ตามสถานะ"><option value="all">ทุกสถานะ</option><option value="Pending">รอดำเนินการ</option><option value="In Progress">กำลังดำเนินการ</option><option value="Completed">เสร็จสิ้น</option></select></div></div>
+        <div class="table-scroll"><table class="admin-table"><thead><tr><th scope="col">Ticket / ผู้แจ้ง</th><th scope="col">อุปกรณ์ / อาการ</th><th scope="col">สถานที่</th><th scope="col">ความสำคัญ</th><th scope="col">วันที่แจ้ง</th><th scope="col">สถานะ</th><th scope="col">หมายเหตุช่าง</th><th scope="col">ลบ</th></tr></thead><tbody id="admin-ticket-rows"></tbody></table><div class="empty-state" id="admin-empty" hidden><strong>ไม่พบรายการแจ้งซ่อม</strong>ลองปรับคำค้นหาหรือตัวกรองสถานะ</div></div>
+        <div class="table-footer"><span id="admin-result-count" aria-live="polite"></span><span>เปลี่ยนสถานะและบันทึกหมายเหตุได้ทันที</span></div>
       </section>
-    </div>
+    </section>
     <footer>สำนักเทคโนโลยีดิจิทัล มหาวิทยาลัยขอนแก่น · Digital Technology Office, Khon Kaen University</footer>
   </main>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script>
     (() => {
-      const tickets = [
-        { id: 'KKU-2026-0148', reporter: 'น.ส. พิมพ์ชนก ศรีสวัสดิ์', department: 'คณะวิทยาศาสตร์', device: 'คอมพิวเตอร์ตั้งโต๊ะ', issue: 'เปิดเครื่องไม่ติด หลังไฟฟ้าดับ', priority: 'High', status: 'In Progress', date: '22 พ.ย. 2569' },
-        { id: 'KKU-2026-0147', reporter: 'นายธนกฤต วัฒนชัย', department: 'คณะวิศวกรรมศาสตร์', device: 'เครื่องพิมพ์', issue: 'พิมพ์เอกสารแล้วกระดาษติดบ่อย', priority: 'Medium', status: 'Pending', date: '22 พ.ย. 2569' },
-        { id: 'KKU-2026-0146', reporter: 'นางสาวสุภาวดี แก้วคำ', department: 'คณะศึกษาศาสตร์', device: 'เครือข่าย / Wi-Fi', issue: 'สัญญาณ Wi-Fi หลุดเป็นระยะ', priority: 'Medium', status: 'Pending', date: '21 พ.ย. 2569' },
-        { id: 'KKU-2026-0145', reporter: 'นายกิตติพงษ์ มณีวงศ์', department: 'สำนักเทคโนโลยีดิจิทัล', device: 'โปรเจกเตอร์ / จอภาพ', issue: 'ภาพจากโปรเจกเตอร์ไม่แสดงสี', priority: 'Low', status: 'Completed', date: '21 พ.ย. 2569' },
-        { id: 'KKU-2026-0144', reporter: 'น.ส. รุ่งทิวา บุญมี', department: 'คณะมนุษยศาสตร์และสังคมศาสตร์', device: 'คอมพิวเตอร์โน้ตบุ๊ก', issue: 'แบตเตอรี่ไม่ชาร์จและเครื่องร้อน', priority: 'High', status: 'In Progress', date: '20 พ.ย. 2569' },
-        { id: 'KKU-2026-0143', reporter: 'นายณัฐวุฒิ พรมมา', department: 'คณะเกษตรศาสตร์', device: 'คอมพิวเตอร์ตั้งโต๊ะ', issue: 'ระบบปฏิบั��ิการทำงานช้าผิดปกติ', priority: 'Low', status: 'Completed', date: '19 พ.ย. 2569' },
-        { id: 'KKU-2026-0142', reporter: 'นางสาวอรทัย จันทะวงษ์', department: 'บัณฑิตวิทยาลัย', device: 'เครื่องพิมพ์', issue: 'เครื่องไม่เชื่อมต่อกับคอมพิวเตอร์', priority: 'Medium', status: 'Pending', date: '18 พ.ย. 2569' }
+      'use strict';
+      const STORAGE_KEY = 'kku-it-support-tickets-v1';
+      const STATUS = ['Pending', 'In Progress', 'Completed'];
+      const samples = [
+        {id:'KKU-2026-0148',reporter:'น.ส. พิมพ์ชนก ศรีสวัสดิ์',department:'คณะวิทยาศาสตร์',device:'คอมพิวเตอร์ตั้งโต๊ะ',location:'อาคารวิทยวิภาส ชั้น 3 ห้อง SC3201',issue:'เปิดเครื่องไม่ติด หลังไฟฟ้าดับ',priority:'High',status:'In Progress',notes:'ตรวจสอบ Power Supply และรออะไหล่',date:'2026-11-22'},
+        {id:'KKU-2026-0147',reporter:'นายธนกฤต วัฒนชัย',department:'คณะวิศวกรรมศาสตร์',device:'เครื่องพิมพ์',location:'อาคาร 6 ชั้น 2 ห้อง EN6204',issue:'พิมพ์เอกสารแล้วกระดาษติดบ่อย',priority:'Medium',status:'Pending',notes:'',date:'2026-11-22'},
+        {id:'KKU-2026-0146',reporter:'นางสาวสุภาวดี แก้วคำ',department:'คณะศึกษาศาสตร์',device:'เครือข่าย / Wi-Fi',location:'อาคารคณะศึกษาศาสตร์ ชั้น 4',issue:'สัญญาณ Wi-Fi หลุดเป็นระยะ',priority:'Medium',status:'Pending',notes:'',date:'2026-11-21'},
+        {id:'KKU-2026-0145',reporter:'นายกิตติพงษ์ มณีวงศ์',department:'สำนักเทคโนโลยีดิจิทัล',device:'โปรเจกเตอร์ / จอภาพ',location:'อาคารศูนย์สารส���เทศ ห้องประชุม 2',issue:'ภาพจากโปรเจกเตอร์ไม่แสดงสี',priority:'Low',status:'Completed',notes:'เปลี่ยนสาย HDMI และทดสอบเรียบร้อย',date:'2026-11-21'},
+        {id:'KKU-2026-0144',reporter:'น.ส. รุ่งทิวา บุญมี',department:'คณะมนุษยศาสตร์และสังคมศาสตร์',device:'คอมพิวเตอร์โน้ตบุ๊ก',location:'อาคาร HS.05 ชั้น 2 ห้อง 5207',issue:'แบตเตอรี่ไม่ชาร์จและเครื่องร้อน',priority:'High',status:'In Progress',notes:'ทำความสะอาดพัดลมและตรวจแบตเตอรี่',date:'2026-11-20'},
+        {id:'KKU-2026-0143',reporter:'นายณัฐวุฒิ พรมมา',department:'คณะเกษตรศาสตร์',device:'คอมพิวเตอร์ตั้งโต๊ะ',location:'อาคาร AG ชั้น 1 ห้องปฏิบัติการคอมพิวเตอร์',issue:'ระบบปฏิบัติการทำงานช้าผิดปกติ',priority:'Low',status:'Completed',notes:'อัปเดตระบบและกำจัดไฟล์ชั่วคราวแล้ว',date:'2026-11-19'},
+        {id:'KKU-2026-0142',reporter:'นางสาวอรทัย จันทะวงษ์',department:'บัณฑิตวิทยาลัย',device:'เครื่องพิมพ์',location:'อาคารพิมล กลกิจ ชั้น 4',issue:'เครื่องไม่เชื่อมต่อกับคอมพิวเตอร์',priority:'Medium',status:'Pending',notes:'',date:'2026-11-18'},
+        {id:'KKU-2026-0141',reporter:'นายธีรภัทร แสนสุข',department:'คณะเภสัชศาสตร์',device:'โปรเจกเตอร์ / จอภาพ',location:'อาคาร 3 ห้องเรียน 301',issue:'โปรเจกเตอร์ไม่รับสัญญาณจากเครื่องนำเสนอ',priority:'High',status:'Pending',notes:'',date:'2026-11-18'}
       ];
-      const rows = document.getElementById('ticket-rows');
-      const form = document.getElementById('ticket-form');
-      const statusFilter = document.getElementById('status-filter');
-      const searchInput = document.getElementById('search-input');
-      const emptyState = document.getElementById('empty-state');
-      const toast = document.getElementById('toast');
+      const $ = id => document.getElementById(id);
+      let tickets = loadTickets();
+      let currentUser = null;
       let toastTimer;
 
-      document.getElementById('today-label').textContent = new Intl.DateTimeFormat('th-TH', { dateStyle: 'full' }).format(new Date());
-      const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
-      const statusClass = status => ({ 'Pending': 'status-pending', 'In Progress': 'status-progress', 'Completed': 'status-completed' })[status];
-      const statusLabel = status => ({ 'Pending': 'รอดำเนินการ', 'In Progress': 'กำลังดำเนินการ', 'Completed': 'เสร็จสิ้น' })[status];
-      const priorityClass = priority => ({ High: 'priority-high', Medium: 'priority-medium', Low: 'priority-low' })[priority];
-      const priorityLabel = priority => ({ High: 'สูง', Medium: 'ปานกลาง', Low: 'ต่ำ' })[priority];
-
-      function render() {
-        const query = searchInput.value.trim().toLocaleLowerCase('th');
-        const status = statusFilter.value;
-        const visible = tickets.filter(ticket => {
-          const searchable = [ticket.id, ticket.reporter, ticket.department, ticket.device, ticket.issue].join(' ').toLocaleLowerCase('th');
-          return (!query || searchable.includes(query)) && (status === 'all' || ticket.status === status);
-        });
-        rows.innerHTML = visible.map(ticket => `<tr>
-          <td><span class="ticket-id">${escapeHTML(ticket.id)}</span></td>
-          <td><span class="reporter">${escapeHTML(ticket.reporter)}</span><span class="subtext">${escapeHTML(ticket.department)}</span></td>
-          <td><span class="device-name">${escapeHTML(ticket.device)}</span><span class="subtext issue">${escapeHTML(ticket.issue)}</span></td>
-          <td><span class="priority-badge ${priorityClass(ticket.priority)}">${priorityLabel(ticket.priority)}</span></td>
-          <td class="device-name">${escapeHTML(ticket.date)}</td>
-          <td><span class="status-badge ${statusClass(ticket.status)}">${statusLabel(ticket.status)}</span></td>
-        </tr>`).join('');
-        emptyState.hidden = visible.length > 0;
-        document.getElementById('result-count').textContent = `แสดง ${visible.length} จาก ${tickets.length} รายการ`;
-        document.getElementById('total-count').textContent = tickets.length;
-        document.getElementById('pending-count').textContent = tickets.filter(ticket => ticket.status === 'Pending').length;
-        document.getElementById('progress-count').textContent = tickets.filter(ticket => ticket.status === 'In Progress').length;
-        document.getElementById('completed-count').textContent = tickets.filter(ticket => ticket.status === 'Completed').length;
+      function loadTickets(){
+        try {
+          const saved = localStorage.getItem(STORAGE_KEY);
+          if (!saved) { localStorage.setItem(STORAGE_KEY, JSON.stringify(samples)); return structuredClone(samples); }
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.every(ticket => ticket && typeof ticket.id === 'string' && STATUS.includes(ticket.status))) return parsed;
+        } catch (error) { console.warn('Ticket storage unavailable; using in-memory sample data.', error); }
+        return structuredClone(samples);
       }
-
-      function showToast(message) {
-        toast.textContent = message;
-        toast.classList.add('show');
-        clearTimeout(toastTimer);
-        toastTimer = setTimeout(() => toast.classList.remove('show'), 3500);
+      function persist(){ try { localStorage.setItem(STORAGE_KEY, JSON.stringify(tickets)); } catch(error) { showToast('บันทึก localStorage ไม่สำเร็จ · พื้นที่จัดเก็บอาจเต็ม'); console.error(error); } }
+      const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+      const statusClass = status => ({Pending:'status-pending','In Progress':'status-progress',Completed:'status-completed'})[status] || 'status-pending';
+      const statusLabel = status => ({Pending:'รอดำเนินการ','In Progress':'กำลังดำเนินการ',Completed:'เสร็จสิ้น'})[status] || status;
+      const priorityClass = priority => ({High:'priority-high',Medium:'priority-medium',Low:'priority-low'})[priority] || 'priority-medium';
+      const priorityLabel = priority => ({High:'สูง',Medium:'ปานกลาง',Low:'ต่ำ'})[priority] || priority;
+      function dateLabel(iso){ const date = new Date(`${iso}T00:00:00`); return Number.isNaN(date.getTime()) ? escapeHTML(iso) : new Intl.DateTimeFormat('th-TH',{day:'numeric',month:'short',year:'numeric'}).format(date); }
+      function showToast(message){ const toast=$('toast'); toast.textContent=message; toast.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>toast.classList.remove('show'),3500); }
+      function setView(view){ document.querySelectorAll('.view').forEach(section=>section.classList.remove('active')); $(view).classList.add('active'); $('session-info').hidden=!currentUser; if(currentUser){$('session-name').textContent=currentUser.name;$('session-department').textContent=currentUser.department || ''; $('role-badge').textContent=currentUser.role==='admin'?'IT Admin · นักวิชาการคอมพิวเตอร์':'ผู้ใช้งานทั่วไป';} window.scrollTo({top:0,behavior:'smooth'}); }
+      function enterUser(name,department){ currentUser={name:name.trim(),department:department.trim(),role:'user'}; setView('user-view'); renderUserTickets(); }
+      function enterAdmin(){ currentUser={name:'KKU IT Staff',department:'สำนักเทคโนโลยีดิจิทัล',role:'admin'}; setView('admin-view'); renderAdmin(); }
+      function ticketMarkup(ticket){return `<span class="ticket-id">${escapeHTML(ticket.id)}</span><span class="subtext">${escapeHTML(ticket.reporter)} · ${escapeHTML(ticket.department)}</span>`;}
+      function renderUserTickets(){
+        const mine=tickets.filter(ticket=>ticket.reporter===currentUser?.name && ticket.department===currentUser?.department).sort((a,b)=>b.date.localeCompare(a.date)||b.id.localeCompare(a.id));
+        $('my-ticket-rows').innerHTML=mine.map(ticket=>`<tr><td><span class="ticket-id">${escapeHTML(ticket.id)}</span><span class="subtext">${dateLabel(ticket.date)}</span></td><td><span class="reporter">${escapeHTML(ticket.device)}</span><span class="subtext">${escapeHTML(ticket.issue)}</span><span class="priority-badge ${priorityClass(ticket.priority)}">${priorityLabel(ticket.priority)}</span></td><td>${escapeHTML(ticket.location)}</td><td><span class="status-badge ${statusClass(ticket.status)}">${statusLabel(ticket.status)}</span></td><td>${ticket.notes?escapeHTML(ticket.notes):'<span class="subtext">ยังไม่มีหมายเหตุ</span>'}</td><td>${ticket.status==='Pending'?`<button class="button-danger button-small" type="button" data-cancel="${escapeHTML(ticket.id)}">ยกเลิก</button>`:'<span class="subtext">—</span>'}</td></tr>`).join('');
+        $('my-empty').hidden=mine.length>0; $('my-ticket-count').textContent=`แสดง ${mine.length} รายการ`;
       }
+      function renderAdmin(){
+        if(currentUser?.role!=='admin')return;
+        const query=$('admin-search').value.trim().toLocaleLowerCase('th'); const filter=$('admin-status-filter').value;
+        const visible=tickets.filter(ticket=>{const haystack=[ticket.id,ticket.reporter,ticket.department,ticket.device,ticket.location,ticket.issue].join(' ').toLocaleLowerCase('th');return(!query||haystack.includes(query))&&(filter==='all'||ticket.status===filter);}).sort((a,b)=>b.date.localeCompare(a.date)||b.id.localeCompare(a.id));
+        $('admin-ticket-rows').innerHTML=visible.map(ticket=>`<tr><td><span class="ticket-id">${escapeHTML(ticket.id)}</span><span class="subtext">${escapeHTML(ticket.reporter)}<br>${escapeHTML(ticket.department)}</span></td><td><span class="reporter">${escapeHTML(ticket.device)}</span><span class="subtext">${escapeHTML(ticket.issue)}</span></td><td>${escapeHTML(ticket.location)}</td><td><span class="priority-badge ${priorityClass(ticket.priority)}">${priorityLabel(ticket.priority)}</span></td><td>${dateLabel(ticket.date)}</td><td><label class="sr-only" for="status-${escapeHTML(ticket.id)}">สถานะ ${escapeHTML(ticket.id)}</label><select id="status-${escapeHTML(ticket.id)}" data-status="${escapeHTML(ticket.id)}" aria-label="เปลี่ยนสถานะ ${escapeHTML(ticket.id)}">${STATUS.map(status=>`<option value="${status}" ${ticket.status===status?'selected':''}>${statusLabel(status)}</option>`).join('')}</select><span class="subtext"><span class="status-badge ${statusClass(ticket.status)}">${statusLabel(ticket.status)}</span></span></td><td><input class="note-input" type="text" maxlength="240" value="${escapeHTML(ticket.notes)}" data-note="${escapeHTML(ticket.id)}" aria-label="หมายเหตุช่าง ${escapeHTML(ticket.id)}" placeholder="เพิ่มหมายเหตุช่าง"><button class="button-secondary button-small save-note" type="button" data-save-note="${escapeHTML(ticket.id)}">บันทึก</button></td><td class="action-cell"><button class="button-danger button-small" type="button" data-delete="${escapeHTML(ticket.id)}">ลบ</button></td></tr>`).join('');
+        $('admin-empty').hidden=visible.length>0;$('admin-result-count').textContent=`แสดง ${visible.length} จาก ${tickets.length} รายการ`;
+        $('total-count').textContent=tickets.length;$('pending-count').textContent=tickets.filter(t=>t.status==='Pending').length;$('progress-count').textContent=tickets.filter(t=>t.status==='In Progress').length;$('completed-count').textContent=tickets.filter(t=>t.status==='Completed').length;
+      }
+      function createId(){const nums=tickets.map(ticket=>Number(ticket.id.split('-').pop())).filter(Number.isFinite);const next=Math.max(0,...nums)+1;return `KKU-${new Date().getFullYear()}-${String(next).padStart(4,'0')}`;}
 
-      form.addEventListener('submit', event => {
-        event.preventDefault();
-        if (!form.reportValidity()) return;
-        const data = new FormData(form);
-        const nextNumber = Math.max(...tickets.map(ticket => Number(ticket.id.split('-').pop())), 0) + 1;
-        tickets.unshift({
-          id: `KKU-${new Date().getFullYear()}-${String(nextNumber).padStart(4, '0')}`,
-          reporter: data.get('reporter').trim(),
-          department: data.get('department').trim(),
-          device: data.get('device'),
-          issue: data.get('issue').trim(),
-          priority: data.get('priority'),
-          status: 'Pending',
-          date: new Intl.DateTimeFormat('th-TH', { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date())
-        });
-        form.reset();
-        render();
-        showToast('ส่งคำร้องแจ้งซ่อมเรียบร้อยแ��้ว · Ticket added to dashboard');
-      });
-      statusFilter.addEventListener('change', render);
-      searchInput.addEventListener('input', render);
-      render();
+      $('user-login-form').addEventListener('submit',event=>{event.preventDefault();if(!event.currentTarget.reportValidity())return;const data=new FormData(event.currentTarget);enterUser(data.get('name'),data.get('department'));});
+      $('admin-login-button').addEventListener('click',enterAdmin);
+      $('logout-button').addEventListener('click',()=>{currentUser=null;setView('welcome-view');$('user-login-form').reset();});
+      $('ticket-form').addEventListener('submit',event=>{event.preventDefault();if(currentUser?.role!=='user'||!event.currentTarget.reportValidity())return;const data=new FormData(event.currentTarget);tickets.unshift({id:createId(),reporter:currentUser.name,department:currentUser.department,device:data.get('device'),location:data.get('location').trim(),issue:data.get('issue').trim(),priority:data.get('priority'),status:'Pending',notes:'',date:new Date().toISOString().slice(0,10)});persist();event.currentTarget.reset();renderUserTickets();showToast('ส่งคำร้องแจ้งซ่อมเรียบร้อยแล้ว');});
+      $('my-ticket-rows').addEventListener('click',event=>{const button=event.target.closest('[data-cancel]');if(!button)return;const ticket=tickets.find(t=>t.id===button.dataset.cancel);if(!ticket||ticket.status!=='Pending'||ticket.reporter!==currentUser?.name||ticket.department!==currentUser?.department)return;if(!confirm(`ยืนยันยกเลิกคำร้อง ${ticket.id}?`))return;tickets=tickets.filter(t=>t.id!==ticket.id);persist();renderUserTickets();showToast('ยกเลิกคำร้องเรียบร้อยแล้ว');});
+      $('admin-search').addEventListener('input',renderAdmin);$('admin-status-filter').addEventListener('change',renderAdmin);
+      $('admin-ticket-rows').addEventListener('change',event=>{const select=event.target.closest('[data-status]');if(!select||currentUser?.role!=='admin')return;const ticket=tickets.find(t=>t.id===select.dataset.status);if(!ticket||!STATUS.includes(select.value))return;ticket.status=select.value;persist();renderAdmin();showToast(`อัปเดตสถานะ ${ticket.id} แล้ว`);});
+      $('admin-ticket-rows').addEventListener('click',event=>{const save=event.target.closest('[data-save-note]');if(save){if(currentUser?.role!=='admin')return;const id=save.dataset.saveNote;const ticket=tickets.find(t=>t.id===id);const field=$(`admin-ticket-rows`).querySelector(`[data-note="${CSS.escape(id)}"]`);if(!ticket||!field)return;ticket.notes=field.value.trim();persist();renderAdmin();showToast(`บันทึกหมายเหตุ ${id} แล้ว`);return;}const remove=event.target.closest('[data-delete]');if(remove){if(currentUser?.role!=='admin')return;const id=remove.dataset.delete;if(!tickets.some(t=>t.id===id)||!confirm(`ยืนยันลบคำร้อง ${id}?`))return;tickets=tickets.filter(t=>t.id!==id);persist();renderAdmin();showToast(`ลบคำร้อง ${id} แล้ว`);}});
+      const dateText=new Intl.DateTimeFormat('th-TH',{dateStyle:'full'}).format(new Date());$('user-date').textContent=dateText;$('admin-date').textContent=dateText;
+      // Each login mode is a client-side demo. localStorage persists ticket records in this browser only.
+      setView('welcome-view');
     })();
   </script>
 </body>
