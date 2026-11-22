@@ -67,6 +67,11 @@ const TRANSLATIONS = {
       inProgress: 'กำลังดำเนินการ',
       completed: 'เสร็จสิ้น'
     },
+    priorities: {
+      High: 'สูง',
+      Medium: 'ปานกลาง',
+      Low: 'ต่ำ'
+    },
     buttons: {
       submit: 'ส่งคำขอแจ้งซ่อม',
       signOut: 'ออกจากระบบ',
@@ -147,6 +152,11 @@ const TRANSLATIONS = {
       inProgress: 'In Progress',
       completed: 'Completed'
     },
+    priorities: {
+      High: 'High',
+      Medium: 'Medium',
+      Low: 'Low'
+    },
     buttons: {
       submit: 'Submit repair ticket',
       signOut: 'Sign out',
@@ -196,6 +206,15 @@ function translateDynamicContent(language) {
     const translated = key ? translations.statuses[key] : null;
     if (translated && element.textContent !== translated) element.textContent = translated;
   });
+
+  document.querySelectorAll('.priority-badge').forEach((badge) => {
+    const label = badge.textContent.trim();
+    const priority = Object.keys(TRANSLATIONS.en.priorities).find((key) =>
+      key === label || TRANSLATIONS.th.priorities[key] === label
+    );
+    const translated = priority ? translations.priorities[priority] : null;
+    if (translated && label !== translated) badge.textContent = translated;
+  });
 }
 
 function setLanguage(lang) {
@@ -217,7 +236,7 @@ function setLanguage(lang) {
   return language;
 }
 
-// Translate statuses as app.js inserts or refreshes ticket rows.
+// Translate statuses and priorities as app.js inserts or refreshes ticket rows.
 if (typeof document !== 'undefined' && typeof MutationObserver !== 'undefined') {
   const statusObserver = new MutationObserver(() => {
     translateDynamicContent(document.documentElement.lang || 'th');
