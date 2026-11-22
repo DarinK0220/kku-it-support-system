@@ -26,12 +26,16 @@
 
 html {
   min-width: 320px;
+  max-width: 100%;
+  overflow-x: hidden;
   min-height: 100%;
   scroll-behavior: smooth;
 }
 
 body {
   min-width: 320px;
+  max-width: 100%;
+  overflow-x: hidden;
   min-height: 100vh;
   margin: 0;
   background: var(--page);
@@ -68,6 +72,9 @@ textarea:focus-visible,
 
 /* Header */
 .topbar {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
   color: #fff;
   background: var(--kku-brick);
   border-bottom: 4px solid var(--kku-gold);
@@ -176,6 +183,8 @@ textarea:focus-visible,
 /* Main layout and welcome screen */
 .page {
   width: min(1440px, 100%);
+  max-width: 100%;
+  overflow-x: hidden;
   min-height: calc(100vh - 76px);
   margin: 0 auto;
   padding: 30px 32px 42px;
@@ -183,6 +192,9 @@ textarea:focus-visible,
 
 .view {
   display: none;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .view.active {
@@ -426,7 +438,10 @@ label {
 }
 
 .card {
+  width: 100%;
+  max-width: 100%;
   min-width: 0;
+  overflow: hidden;
   border: 1px solid rgba(31, 41, 55, .08);
   border-radius: 12px;
   background: var(--surface);
@@ -508,6 +523,7 @@ label {
 }
 
 .table-scroll {
+  display: block;
   width: 100%;
   max-width: 100%;
   overflow-x: auto;
@@ -517,13 +533,13 @@ label {
 
 table {
   width: 100%;
-  min-width: 760px;
+  min-width: 100%;
   border-collapse: collapse;
   text-align: left;
 }
 
 .admin-table {
-  min-width: 1050px;
+  min-width: 100%;
 }
 
 th {
@@ -1085,3 +1101,7 @@ footer {
     animation-iteration-count: 1 !important;
   }
 }
+
+.filter-controls { display: flex !important; flex-direction: row !important; align-items: center; gap: 8px; }
+.filter-controls input { flex: 1; min-width: 0; height: 42px; }
+.filter-controls select { width: 105px !important; height: 42px !important; min-height: 42px !important; padding: 0 8px !important; font-size: 12px !important; flex-shrink: 0; }
