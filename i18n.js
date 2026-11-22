@@ -178,13 +178,14 @@ const STATUS_KEYS = {
 };
 
 function translateDynamicContent(language) {
-  const translations = TRANSLATIONS[language];
+  const translations = TRANSLATIONS[language] || TRANSLATIONS.th;
 
   document.querySelectorAll('thead th').forEach((header) => {
     const key = Object.keys(TABLE_HEADER_KEYS).find((name) =>
       TABLE_HEADER_KEYS[name].includes(header.textContent.trim())
     );
-    if (key) header.textContent = translations.table[key];
+    const translated = key ? translations.table[key] : null;
+    if (translated && header.textContent !== translated) header.textContent = translated;
   });
 
   document.querySelectorAll('.status-badge, select[data-status] option').forEach((element) => {
@@ -192,7 +193,8 @@ function translateDynamicContent(language) {
     const key = STATUS_KEYS[status] || Object.keys(STATUS_KEYS).find((englishStatus) =>
       TRANSLATIONS.th.statuses[STATUS_KEYS[englishStatus]] === status
     );
-    if (key) element.textContent = translations.statuses[key];
+    const translated = key ? translations.statuses[key] : null;
+    if (translated && element.textContent !== translated) element.textContent = translated;
   });
 }
 
@@ -202,7 +204,7 @@ function setLanguage(lang) {
 
   document.querySelectorAll('[data-i18n]').forEach((element) => {
     const value = element.dataset.i18n.split('.').reduce((entry, key) => entry?.[key], translations);
-    if (typeof value === 'string') element.textContent = value;
+    if (typeof value === 'string' && element.textContent !== value) element.textContent = value;
   });
   translateDynamicContent(language);
 
@@ -216,7 +218,7 @@ function setLanguage(lang) {
 }
 
 // Translate statuses as app.js inserts or refreshes ticket rows.
-if (typeof document !== 'undefined') {
+if (typeof document !== 'undefined' && typeof MutationObserver !== 'undefined') {
   const statusObserver = new MutationObserver(() => {
     translateDynamicContent(document.documentElement.lang || 'th');
   });
