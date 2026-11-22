@@ -7,7 +7,7 @@ const TRANSLATIONS = {
     headerTitle: 'ระบบแจ้งซ่อมและติดตามงาน IT',
     ssoLoginButton: 'เข้าสู่ระบบด้วย KKU SSO / OIDC',
     welcomeSubtitle: 'แจ้งซ่อมและติดตามสถานะอุปกรณ์และบริการด้านเทคโนโลยีสารสนเทศของมหาวิทยาลัยขอนแก่น',
-    demoNote: 'บัญชีตัวอย่างสำหรับการประเมินเท่านั้น · เลือกบัญชีเพื่อทดลองใช้งาน',
+    demoNote: 'บัญชีตัวอย่างสำหรับการประเมินเท่านั้น · เลือกบัญชีเพื่อทดลองใช้งานระบบ',
     userPortal: 'พอร์ทัลผู้ใช้ · KKU IT Support',
     repairPortal: 'พอร์ทัลแจ้งซ่อม',
     userPortalDescription: 'สร้างคำขอแจ้งซ่อมและติดตามสถานะคำขอของคุณ',
@@ -29,13 +29,19 @@ const TRANSLATIONS = {
     myTicketsDescription: 'รายการแจ้งซ่อมของคุณ',
     ticketCount: 'รายการ',
     table: {
+      id: 'รหัส',
+      reporter: 'ผู้แจ้ง',
+      device: 'อุปกรณ์',
+      issue: 'ปัญหา',
+      priority: 'ความสำคัญ',
+      date: 'วันที่',
+      status: 'สถานะ',
+      notes: 'บันทึกช่าง',
+      action: 'การดำเนินการ',
       ticketDate: 'หมายเลข / วันที่',
       deviceIssue: 'อุปกรณ์ / ปัญหา',
       location: 'สถานที่',
-      status: 'สถานะ',
-      notes: 'บันทึกช่าง',
-      actions: 'การดำเนินการ',
-      reporter: 'ผู้แจ้ง'
+      actions: 'การดำเนินการ'
     },
     emptyTicketsTitle: 'ยังไม่มีรายการแจ้งซ่อม',
     emptyTicketsDescription: 'สร้างคำขอแจ้งซ่อมด้วยแบบฟอร์มเพื่อเริ่มต้น',
@@ -46,7 +52,7 @@ const TRANSLATIONS = {
     stats: {
       total: 'รายการทั้งหมด',
       pending: 'รอดำเนินการ',
-      inProgress: 'กำลังดำเนินการ',
+      inProgress: 'กำลังดำเนินก���ร',
       completed: 'เสร็จสิ้น'
     },
     allTickets: 'รายการแจ้งซ่อมทั้งหมด',
@@ -68,7 +74,7 @@ const TRANSLATIONS = {
       saveNote: 'บันทึกหมายเหตุ',
       delete: 'ลบ',
       close: 'ปิด',
-      updateStatus: 'อัปเดตสถานะ'
+      updateStatus: '��ัปเดตสถานะ'
     },
     sso: {
       title: 'เลือกบัญชีเพื่อเข้าสู่ระบบ',
@@ -103,13 +109,19 @@ const TRANSLATIONS = {
     myTicketsDescription: 'Your repair requests',
     ticketCount: 'tickets',
     table: {
+      id: 'ID',
+      reporter: 'Reporter',
+      device: 'Device',
+      issue: 'Issue',
+      priority: 'Priority',
+      date: 'Date',
+      status: 'Status',
+      notes: 'Notes',
+      action: 'Action',
       ticketDate: 'Ticket / Date',
       deviceIssue: 'Device / Issue',
       location: 'Location',
-      status: 'Status',
-      notes: 'Technician notes',
-      actions: 'Actions',
-      reporter: 'Reporter'
+      actions: 'Actions'
     },
     emptyTicketsTitle: 'No repair tickets yet',
     emptyTicketsDescription: 'Create a ticket using the form to get started.',
