@@ -1085,3 +1085,37 @@ footer {
     animation-iteration-count: 1 !important;
   }
 }
+
+/* Move TH|EN toggle to far right & fix header spacing */
+.topbar-inner { flex-wrap: nowrap !important; gap: 12px !important; }
+.brand { flex: 1 1 auto !important; min-width: 180px !important; }
+.topbar-inner > button, #lang-toggle, .lang-toggle {
+  order: 99 !important;
+  margin-left: auto !important;
+  flex-shrink: 0 !important;
+  white-space: nowrap !important;
+}
+.session-info { order: 10 !important; flex-shrink: 0 !important; }
+
+/* Fix oversized close button inside SSO modal */
+.modal-close {
+  width: 34px !important;
+  height: 34px !important;
+  font-size: 20px !important;
+  overflow: hidden !important;
+  text-indent: -9999px !important;
+  position: absolute !important;
+  top: 14px !important;
+  right: 14px !important;
+}
+.modal-close::after {
+  content: "×" !important;
+  text-indent: 0 !important;
+  position: absolute !important;
+  inset: 0 !important;
+  display: grid !important;
+  place-items: center !important;
+  font-size: 24px !important;
+  color: #64748B !important;
+}
+
