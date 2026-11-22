@@ -1101,3 +1101,8 @@ footer {
     animation-iteration-count: 1 !important;
   }
 }
+
+.filter-controls { display: flex !important; flex-direction: row !important; align-items: center; gap: 8px; }
+.filter-controls input { flex: 1; min-width: 0; height: 42px; }
+.filter-controls select { width: 135px !important; height: 42px !important; min-height: 42px !important; flex-shrink: 0; }
+
