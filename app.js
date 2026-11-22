@@ -1,8 +1,8 @@
 /*
  * KKU IT Support UI state manager.
  * This is a local demonstration only: the account picker simulates KKU SSO and
- * does not authenticate with a real OIDC provider. Load data.js before app.js;
- * this file will load data.js itself when its data constants are not available.
+ * does not authenticate with a real OIDC provider. Load data.js before app.js; this
+ * file will load data.js itself when its data constants are not available.
  */
 (() => {
   'use strict';
@@ -23,7 +23,6 @@
       initialize(KKU_UNITS, KKU_SSO_ACCOUNTS, INITIAL_TICKETS);
       return;
     }
-
     const script = document.createElement('script');
     script.src = new URL('./data.js', document.currentScript?.src || window.location.href).href;
     script.onload = () => {
@@ -37,24 +36,16 @@
     document.head.appendChild(script);
   }
 
-  function clone(value) {
-    return JSON.parse(JSON.stringify(value));
-  }
+  function clone(value) { return JSON.parse(JSON.stringify(value)); }
 
   function readStorage(key) {
-    try {
-      return window.localStorage.getItem(key);
-    } catch (error) {
-      console.warn(`Local storage is unavailable for ${key}.`, error);
-      return null;
-    }
+    try { return window.localStorage.getItem(key); }
+    catch (error) { console.warn(`Local storage is unavailable for ${key}.`, error); return null; }
   }
 
   function writeStorage(key, value) {
-    try {
-      window.localStorage.setItem(key, JSON.stringify(value));
-      return true;
-    } catch (error) {
+    try { window.localStorage.setItem(key, JSON.stringify(value)); return true; }
+    catch (error) {
       console.warn(`Could not save ${key}.`, error);
       showToast('Browser storage is unavailable; changes may not persist.');
       return false;
@@ -62,11 +53,8 @@
   }
 
   function removeStorage(key) {
-    try {
-      window.localStorage.removeItem(key);
-    } catch (error) {
-      console.warn(`Could not remove ${key}.`, error);
-    }
+    try { window.localStorage.removeItem(key); }
+    catch (error) { console.warn(`Could not remove ${key}.`, error); }
   }
 
   function validTickets(value) {
@@ -81,9 +69,7 @@
       try {
         const parsed = JSON.parse(stored);
         if (validTickets(parsed)) return parsed;
-      } catch (error) {
-        console.warn('Saved tickets were invalid; restoring initial tickets.', error);
-      }
+      } catch (error) { console.warn('Saved tickets were invalid; restoring initial tickets.', error); }
     }
     const initial = clone(initialTickets);
     writeStorage(TICKETS_KEY, initial);
@@ -95,18 +81,13 @@
     if (!stored) return null;
     try {
       const user = JSON.parse(stored);
-      if (user && ['user', 'admin'].includes(user.role) &&
-          typeof user.name === 'string' && typeof user.department === 'string') return user;
-    } catch (error) {
-      console.warn('Saved login session was invalid.', error);
-    }
+      if (user && ['user', 'admin'].includes(user.role) && typeof user.name === 'string' && typeof user.department === 'string') return user;
+    } catch (error) { console.warn('Saved login session was invalid.', error); }
     removeStorage(SESSION_KEY);
     return null;
   }
 
-  function save() {
-    writeStorage(TICKETS_KEY, tickets);
-  }
+  function save() { writeStorage(TICKETS_KEY, tickets); }
 
   function esc(value) {
     return String(value ?? '').replace(/[&<>"']/g, (character) => ({
@@ -123,34 +104,27 @@
     toastTimer = window.setTimeout(() => toast.classList.remove('show'), 3500);
   }
 
-  function accountRole(account) {
-    return account.role === 'IT Admin' ? 'admin' : 'user';
+  function accountRole(account) { return account.role === 'IT Admin' ? 'admin' : 'user'; }
+  function getAccount(email, accounts) { return accounts.find((account) => account.email === email); }
+
+  function renderAccountCards(accounts) {
+    const container = $('sso-account-cards');
+    if (!container) return;
+    container.innerHTML = accounts.map((account) => `
+      <button class="account-card" type="button" data-sso-account="${esc(account.email)}">
+        <span class="account-card-name">${esc(account.name)}</span>
+        <span class="account-card-email">${esc(account.email)}</span>
+        <span class="account-card-role">${esc(account.role)}</span>
+      </button>`).join('');
   }
 
-  function getAccount(email, accounts) {
-    return accounts.find((account) => account.email === email);
-  }
-
-  function makeAccountPicker(accounts) {
-    const userForm = $('user-login-form');
-    if (!userForm || $('sso-account-select')) return;
-
-    const section = document.createElement('section');
-    section.className = 'sso-demo-login';
-    section.setAttribute('aria-label', 'Simulated KKU SSO login');
-    section.innerHTML = `
-      <p class="section-description"><strong>KKU SSO demo</strong> · Simulated account picker for evaluation only; this does not contact the university identity provider.</p>
-      <div class="field">
-        <label for="sso-account-select">Choose a demo account</label>
-        <select id="sso-account-select" required>
-          <option value="" disabled selected>Select a KKU demo account</option>
-          ${accounts.map((account) => `<option value="${esc(account.email)}">${esc(account.email)} · ${esc(account.role)}</option>`).join('')}
-        </select>
-      </div>
-      <button class="button-primary full-width" type="button" id="sso-login-button">Continue with simulated KKU SSO</button>
-      <hr>
-    `;
-    userForm.parentNode.insertBefore(section, userForm);
+  function setModalOpen(open) {
+    const modal = $('sso-modal');
+    if (!modal) return;
+    modal.hidden = !open;
+    document.body.classList.toggle('modal-open', open);
+    if (open) $('sso-modal-close')?.focus();
+    else $('sso-login-button')?.focus();
   }
 
   function populateUnits(units) {
@@ -170,15 +144,12 @@
     return Number.isNaN(date.getTime()) ? esc(iso) :
       new Intl.DateTimeFormat('th-TH', { day: 'numeric', month: 'short', year: 'numeric' }).format(date);
   }
-
   function statusClass(status) {
     return ({ Pending: 'status-pending', 'In Progress': 'status-in-progress', Completed: 'status-completed' })[status] || 'status-pending';
   }
-
   function statusLabel(status) {
     return ({ Pending: 'รอดำเนินการ', 'In Progress': 'กำลังดำเนินการ', Completed: 'เสร็จสิ้น' })[status] || status;
   }
-
   function priorityClass(priority) {
     return ({ High: 'priority-high', Medium: 'priority-medium', Low: 'priority-low' })[priority] || 'priority-medium';
   }
@@ -196,22 +167,24 @@
   function renderHeader() {
     const info = $('session-info');
     if (info) info.hidden = !currentUser;
+    const logout = $('logout-button');
+    if (logout) logout.hidden = !currentUser;
+    const role = $('role-badge');
+    if (role) role.hidden = !currentUser;
     const name = $('session-name');
     const department = $('session-department');
-    const role = $('role-badge');
+    const email = $('session-email');
     if (!currentUser) {
       if (name) name.textContent = '';
       if (department) department.textContent = '';
-      if (role) role.textContent = '';
-      const email = $('session-email');
       if (email) email.textContent = '';
+      if (role) role.textContent = '';
       return;
     }
     if (name) name.textContent = currentUser.name;
     if (department) department.textContent = currentUser.department;
-    if (role) role.textContent = currentUser.role === 'admin' ? 'IT Admin' : 'User';
-    const email = $('session-email');
     if (email) email.textContent = currentUser.email || '';
+    if (role) role.textContent = currentUser.role === 'admin' ? 'IT Admin' : 'User';
   }
 
   function renderUser() {
@@ -245,7 +218,6 @@
       const text = [ticket.id, ticket.reporter, ticket.department, ticket.device, ticket.location, ticket.issue].join(' ').toLocaleLowerCase('th');
       return (!query || text.includes(query)) && (filter === 'all' || ticket.status === filter);
     }).sort((a, b) => b.date.localeCompare(a.date) || b.id.localeCompare(a.id));
-
     body.innerHTML = visible.map((ticket) => `
       <tr>
         <td><span class="ticket-id">${esc(ticket.id)}</span><span class="subtext">${esc(ticket.reporter)}<br>${esc(ticket.department)}</span></td>
@@ -253,30 +225,22 @@
         <td>${esc(ticket.location)}</td>
         <td><span class="priority-badge ${priorityClass(ticket.priority)}">${esc(ticket.priority)}</span></td>
         <td>${dateLabel(ticket.date)}</td>
-        <td>
-          <label class="sr-only" for="status-${esc(ticket.id)}">Update status for ${esc(ticket.id)}</label>
+        <td><label class="sr-only" for="status-${esc(ticket.id)}">Update status for ${esc(ticket.id)}</label>
           <select id="status-${esc(ticket.id)}" data-status="${esc(ticket.id)}" aria-label="Update status for ${esc(ticket.id)}">
             ${STATUSES.map((status) => `<option value="${status}"${ticket.status === status ? ' selected' : ''}>${esc(statusLabel(status))}</option>`).join('')}
-          </select>
-          <span class="subtext"><span class="status-badge ${statusClass(ticket.status)}">${esc(statusLabel(ticket.status))}</span></span>
-        </td>
+          </select><span class="subtext"><span class="status-badge ${statusClass(ticket.status)}">${esc(statusLabel(ticket.status))}</span></span></td>
         <td><input class="note-input" type="text" maxlength="240" value="${esc(ticket.notes)}" data-note="${esc(ticket.id)}" aria-label="Technician notes for ${esc(ticket.id)}" placeholder="Add technician notes">
           <button class="button-secondary button-small save-note" type="button" data-save-note="${esc(ticket.id)}">Save note</button></td>
         <td><button class="button-danger button-small" type="button" data-delete="${esc(ticket.id)}">Delete</button></td>
       </tr>`).join('');
-
     const empty = $('admin-empty');
     if (empty) empty.hidden = visible.length > 0;
     const resultCount = $('admin-result-count');
     if (resultCount) resultCount.textContent = `${visible.length} of ${tickets.length} tickets`;
-    const total = $('total-count');
-    const pending = $('pending-count');
-    const progress = $('progress-count');
-    const completed = $('completed-count');
-    if (total) total.textContent = String(tickets.length);
-    if (pending) pending.textContent = String(tickets.filter((ticket) => ticket.status === 'Pending').length);
-    if (progress) progress.textContent = String(tickets.filter((ticket) => ticket.status === 'In Progress').length);
-    if (completed) completed.textContent = String(tickets.filter((ticket) => ticket.status === 'Completed').length);
+    if ($('total-count')) $('total-count').textContent = String(tickets.length);
+    if ($('pending-count')) $('pending-count').textContent = String(tickets.filter((ticket) => ticket.status === 'Pending').length);
+    if ($('progress-count')) $('progress-count').textContent = String(tickets.filter((ticket) => ticket.status === 'In Progress').length);
+    if ($('completed-count')) $('completed-count').textContent = String(tickets.filter((ticket) => ticket.status === 'Completed').length);
   }
 
   function createId() {
@@ -297,6 +261,7 @@
       role: roleOverride || accountRole(account)
     };
     writeStorage(SESSION_KEY, currentUser);
+    setModalOpen(false);
     setView(currentUser.role === 'admin' ? 'admin-view' : 'user-view');
     showToast(`Signed in using a simulated KKU account: ${account.email}`);
   }
@@ -304,27 +269,29 @@
   function logout() {
     currentUser = null;
     removeStorage(SESSION_KEY);
-    const userForm = $('user-login-form');
-    const ticketForm = $('ticket-form');
-    if (userForm) userForm.reset();
-    if (ticketForm) ticketForm.reset();
-    const search = $('admin-search');
-    if (search) search.value = '';
-    const filter = $('admin-status-filter');
-    if (filter) filter.value = 'all';
+    $('user-login-form')?.reset();
+    $('ticket-form')?.reset();
+    if ($('admin-search')) $('admin-search').value = '';
+    if ($('admin-status-filter')) $('admin-status-filter').value = 'all';
     setView('welcome-view');
     showToast('You have been signed out.');
   }
 
   function bindEvents(accounts) {
-    const ssoButton = $('sso-login-button');
-    if (ssoButton) ssoButton.addEventListener('click', () => {
-      const account = getAccount($('sso-account-select')?.value, accounts);
-      if (!account) {
-        showToast('Select a demo account to continue.');
-        return;
-      }
-      login(account);
+    renderAccountCards(accounts);
+    $('sso-login-button')?.addEventListener('click', () => setModalOpen(true));
+    $('sso-modal-close')?.addEventListener('click', () => setModalOpen(false));
+    $('sso-modal')?.addEventListener('click', (event) => {
+      if (event.target === $('sso-modal')) setModalOpen(false);
+    });
+    $('sso-account-cards')?.addEventListener('click', (event) => {
+      const button = event.target.closest('[data-sso-account]');
+      if (!button) return;
+      const account = getAccount(button.dataset.ssoAccount, accounts);
+      if (account) login(account);
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && !$('sso-modal')?.hidden) setModalOpen(false);
     });
 
     const manualForm = $('user-login-form');
@@ -335,26 +302,17 @@
       const name = String(formData.get('name') || '').trim();
       const department = String(formData.get('department') || '');
       const account = accounts.find((item) => item.name.toLocaleLowerCase() === name.toLocaleLowerCase());
-      currentUser = {
-        name,
-        department,
-        email: account?.email || '',
-        role: 'user'
-      };
+      currentUser = { name, department, email: account?.email || '', role: 'user' };
       writeStorage(SESSION_KEY, currentUser);
       setView('user-view');
       showToast('Signed in with the manual demo form.');
     });
 
-    const adminButton = $('admin-login-button');
-    if (adminButton) adminButton.addEventListener('click', () => {
+    $('admin-login-button')?.addEventListener('click', () => {
       const admin = accounts.find((account) => accountRole(account) === 'admin');
-      if (!admin) return;
-      login(admin, 'admin');
+      if (admin) login(admin, 'admin');
     });
-
-    const logoutButton = $('logout-button');
-    if (logoutButton) logoutButton.addEventListener('click', logout);
+    $('logout-button')?.addEventListener('click', logout);
 
     const ticketForm = $('ticket-form');
     if (ticketForm) ticketForm.addEventListener('submit', (event) => {
@@ -362,41 +320,28 @@
       if (currentUser?.role !== 'user' || !ticketForm.reportValidity()) return;
       const formData = new FormData(ticketForm);
       tickets.unshift({
-        id: createId(),
-        reporter: currentUser.name,
-        department: currentUser.department,
+        id: createId(), reporter: currentUser.name, department: currentUser.department,
         device: String(formData.get('device') || '').trim(),
         location: String(formData.get('location') || '').trim(),
         issue: String(formData.get('issue') || '').trim(),
-        priority: String(formData.get('priority') || 'Medium'),
-        status: 'Pending',
-        notes: '',
+        priority: String(formData.get('priority') || 'Medium'), status: 'Pending', notes: '',
         date: new Date().toISOString().slice(0, 10)
       });
-      save();
-      ticketForm.reset();
-      renderUser();
-      showToast('Repair ticket created.');
+      save(); ticketForm.reset(); renderUser(); showToast('Repair ticket created.');
     });
 
-    const userRows = $('my-ticket-rows');
-    if (userRows) userRows.addEventListener('click', (event) => {
+    $('my-ticket-rows')?.addEventListener('click', (event) => {
       const button = event.target.closest('[data-cancel]');
       if (!button || currentUser?.role !== 'user') return;
       const ticket = tickets.find((item) => item.id === button.dataset.cancel);
       if (!ticket || ticket.status !== 'Pending' || ticket.reporter !== currentUser.name || ticket.department !== currentUser.department) return;
       if (!window.confirm(`Cancel ticket ${ticket.id}?`)) return;
       tickets = tickets.filter((item) => item.id !== ticket.id);
-      save();
-      renderUser();
-      showToast('Ticket cancelled.');
+      save(); renderUser(); showToast('Ticket cancelled.');
     });
 
-    const adminSearch = $('admin-search');
-    if (adminSearch) adminSearch.addEventListener('input', renderAdmin);
-    const statusFilter = $('admin-status-filter');
-    if (statusFilter) statusFilter.addEventListener('change', renderAdmin);
-
+    $('admin-search')?.addEventListener('input', renderAdmin);
+    $('admin-status-filter')?.addEventListener('change', renderAdmin);
     const adminRows = $('admin-ticket-rows');
     if (adminRows) {
       adminRows.addEventListener('change', (event) => {
@@ -404,12 +349,8 @@
         if (!select || currentUser?.role !== 'admin' || !STATUSES.includes(select.value)) return;
         const ticket = tickets.find((item) => item.id === select.dataset.status);
         if (!ticket) return;
-        ticket.status = select.value;
-        save();
-        renderAdmin();
-        showToast(`Status updated for ${ticket.id}.`);
+        ticket.status = select.value; save(); renderAdmin(); showToast(`Status updated for ${ticket.id}.`);
       });
-
       adminRows.addEventListener('click', (event) => {
         const saveButton = event.target.closest('[data-save-note]');
         if (saveButton && currentUser?.role === 'admin') {
@@ -417,22 +358,16 @@
           const ticket = tickets.find((item) => item.id === id);
           const input = adminRows.querySelector(`[data-note="${CSS.escape(id)}"]`);
           if (!ticket || !input) return;
-          ticket.notes = input.value.trim();
-          save();
-          renderAdmin();
-          showToast(`Technician note saved for ${id}.`);
+          ticket.notes = input.value.trim(); save(); renderAdmin(); showToast(`Technician note saved for ${id}.`);
           return;
         }
-
         const deleteButton = event.target.closest('[data-delete]');
         if (deleteButton && currentUser?.role === 'admin') {
           const id = deleteButton.dataset.delete;
           const ticket = tickets.find((item) => item.id === id);
           if (!ticket || !window.confirm(`Delete ticket ${id}? This cannot be undone.`)) return;
           tickets = tickets.filter((item) => item.id !== id);
-          save();
-          renderAdmin();
-          showToast(`Ticket ${id} deleted.`);
+          save(); renderAdmin(); showToast(`Ticket ${id} deleted.`);
         }
       });
     }
@@ -442,13 +377,10 @@
     tickets = loadTickets(initialTickets);
     currentUser = loadSession();
     populateUnits(units);
-    makeAccountPicker(accounts);
     bindEvents(accounts);
-
     const today = new Intl.DateTimeFormat('th-TH', { dateStyle: 'full' }).format(new Date());
     if ($('user-date')) $('user-date').textContent = today;
     if ($('admin-date')) $('admin-date').textContent = today;
-
     if (currentUser) setView(currentUser.role === 'admin' ? 'admin-view' : 'user-view');
     else setView('welcome-view');
   }
