@@ -196,7 +196,7 @@
     body.innerHTML = mine.map((ticket) => `
       <tr>
         <td><span class="ticket-id">${esc(ticket.id)}</span><span class="subtext">${dateLabel(ticket.date)}</span></td>
-        <td><span class="reporter">${esc(ticket.device)}</span><span class="subtext">${esc(ticket.issue)}</span><span class="priority-badge ${priorityClass(ticket.priority)}">${esc(ticket.priority)}</span></td>
+        <td><span class="reporter">${esc(ticket.device)}</span><span class="subtext">${esc(ticket.issue)}</span></td>
         <td>${esc(ticket.location)}</td>
         <td><span class="status-badge ${statusClass(ticket.status)}">${esc(statusLabel(ticket.status))}</span></td>
         <td>${ticket.notes ? esc(ticket.notes) : '<span class="subtext">—</span>'}</td>
@@ -223,13 +223,12 @@
         <td><span class="ticket-id">${esc(ticket.id)}</span><span class="subtext">${esc(ticket.reporter)}<br>${esc(ticket.department)}</span></td>
         <td><span class="reporter">${esc(ticket.device)}</span><span class="subtext">${esc(ticket.issue)}</span></td>
         <td>${esc(ticket.location)}</td>
-        <td><span class="priority-badge ${priorityClass(ticket.priority)}">${esc(ticket.priority)}</span></td>
         <td>${dateLabel(ticket.date)}</td>
         <td><label class="sr-only" for="status-${esc(ticket.id)}">Update status for ${esc(ticket.id)}</label>
           <select id="status-${esc(ticket.id)}" data-status="${esc(ticket.id)}" aria-label="Update status for ${esc(ticket.id)}">
             ${STATUSES.map((status) => `<option value="${status}"${ticket.status === status ? ' selected' : ''}>${esc(statusLabel(status))}</option>`).join('')}
           </select><span class="subtext"><span class="status-badge ${statusClass(ticket.status)}">${esc(statusLabel(ticket.status))}</span></span></td>
-        <td><input class="note-input" type="text" maxlength="240" value="${esc(ticket.notes)}" data-note="${esc(ticket.id)}" aria-label="Technician notes for ${esc(ticket.id)}" placeholder="Add technician notes">
+        <td><input class="note-input" type="text" maxlength="240" value="${esc(ticket.notes)}" data-note="${esc(ticket.id)}" aria-label="Technician notes for ${esc(ticket.id)}" placeholder="Add technician note">
           <button class="button-secondary button-small save-note" type="button" data-save-note="${esc(ticket.id)}">Save note</button></td>
         <td><button class="button-danger button-small" type="button" data-delete="${esc(ticket.id)}">Delete</button></td>
       </tr>`).join('');
