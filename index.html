@@ -35,7 +35,7 @@
     .topbar { background: var(--brick); color: white; border-bottom: 4px solid var(--gold); }
     .topbar-inner { max-width: 1440px; margin: auto; padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
     .brand { display: flex; align-items: center; gap: 14px; min-width: 0; }
-    .brand-mark { width: 48px; height: 48px; display: grid; place-items: center; flex: 0 0 48px; border: 2px solid rgba(212,175,55,.9); border-radius: 50%; color: var(--gold); font-weight: 700; font-size: 16px; letter-spacing: -.5px; }
+    .brand-logo { width: 48px; height: 48px; object-fit: contain; flex: 0 0 48px; }
     .brand-copy { line-height: 1.35; }
     .brand-university { font-size: 14px; color: rgba(255,255,255,.86); }
     .brand-title { font-size: 18px; font-weight: 600; }
@@ -134,7 +134,7 @@
     }
     @media (max-width: 560px) {
       .topbar-inner { padding: 11px 16px; }
-      .brand-mark { width: 42px; height: 42px; flex-basis: 42px; font-size: 14px; }
+      .brand-logo { width: 42px; height: 42px; flex-basis: 42px; }
       .brand { gap: 10px; }
       .brand-title { font-size: 14px; }
       .brand-university { font-size: 11px; }
@@ -165,7 +165,7 @@
   <header class="topbar">
     <div class="topbar-inner">
       <div class="brand" aria-label="Khon Kaen University IT Support">
-        <div class="brand-mark" aria-hidden="true">KKU</div>
+        <img class="brand-logo" src="https://www.kku.ac.th/wp-content/uploads/2022/01/1.-official-logo-2022-27.png" alt="Khon Kaen University logo">
         <div class="brand-copy">
           <div class="brand-university">มหาวิทยาลัยขอนแก่น · Khon Kaen University</div>
           <div class="brand-title">สำนักเทคโนโลยีดิจิทัล</div>
@@ -303,7 +303,7 @@
         { id: 'KKU-2026-0146', reporter: 'นางสาวสุภาวดี แก้วคำ', department: 'คณะศึกษาศาสตร์', device: 'เครือข่าย / Wi-Fi', issue: 'สัญญาณ Wi-Fi หลุดเป็นระยะ', priority: 'Medium', status: 'Pending', date: '21 พ.ย. 2569' },
         { id: 'KKU-2026-0145', reporter: 'นายกิตติพงษ์ มณีวงศ์', department: 'สำนักเทคโนโลยีดิจิทัล', device: 'โปรเจกเตอร์ / จอภาพ', issue: 'ภาพจากโปรเจกเตอร์ไม่แสดงสี', priority: 'Low', status: 'Completed', date: '21 พ.ย. 2569' },
         { id: 'KKU-2026-0144', reporter: 'น.ส. รุ่งทิวา บุญมี', department: 'คณะมนุษยศาสตร์และสังคมศาสตร์', device: 'คอมพิวเตอร์โน้ตบุ๊ก', issue: 'แบตเตอรี่ไม่ชาร์จและเครื่องร้อน', priority: 'High', status: 'In Progress', date: '20 พ.ย. 2569' },
-        { id: 'KKU-2026-0143', reporter: 'นายณัฐวุฒิ พรมมา', department: 'คณะเกษตรศาสตร์', device: 'คอมพิวเตอร์ตั้งโต๊ะ', issue: 'ระบบปฏิบัติการทำงานช้าผิดปกติ', priority: 'Low', status: 'Completed', date: '19 พ.ย. 2569' },
+        { id: 'KKU-2026-0143', reporter: 'นายณัฐวุฒิ พรมมา', department: 'คณะเกษตรศาสตร์', device: 'คอมพิวเตอร์ตั้งโต๊ะ', issue: 'ระบบปฏิบั��ิการทำงานช้าผิดปกติ', priority: 'Low', status: 'Completed', date: '19 พ.ย. 2569' },
         { id: 'KKU-2026-0142', reporter: 'นางสาวอรทัย จันทะวงษ์', department: 'บัณฑิตวิทยาลัย', device: 'เครื่องพิมพ์', issue: 'เครื่องไม่เชื่อมต่อกับคอมพิวเตอร์', priority: 'Medium', status: 'Pending', date: '18 พ.ย. 2569' }
       ];
       const rows = document.getElementById('ticket-rows');
@@ -368,7 +368,7 @@
         });
         form.reset();
         render();
-        showToast('ส่งคำร้องแจ้งซ่อมเรียบร้อยแล้ว · Ticket added to dashboard');
+        showToast('ส่งคำร้องแจ้งซ่อมเรียบร้อยแ��้ว · Ticket added to dashboard');
       });
       statusFilter.addEventListener('change', render);
       searchInput.addEventListener('input', render);
