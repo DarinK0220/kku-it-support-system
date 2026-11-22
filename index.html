@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <script src="i18n.js"></script>
   <script src="data.js" defer></script>
   <script src="app.js" defer></script>
 </head>
@@ -20,9 +21,10 @@
         <img class="brand-logo" src="https://www.kku.ac.th/wp-content/uploads/2022/01/1.-official-logo-2022-27.png" alt="Khon Kaen University logo">
         <div class="brand-copy">
           <div class="brand-university">มหาวิทยาลัยขอนแก่น · Khon Kaen University</div>
-          <div class="brand-title">IT Support &amp; Ticketing System</div>
+          <div class="brand-title" data-i18n="headerTitle">IT Support &amp; Ticketing System</div>
         </div>
       </div>
+      <button class="button-language" type="button" aria-label="เปลี่ยนภาษา / Change language" onclick="setLanguage(document.documentElement.lang === 'th' ? 'en' : 'th')">TH | EN</button>
       <div class="session-info" id="session-info" hidden>
         <div class="session-user">
           <strong id="session-name"></strong>
@@ -41,68 +43,69 @@
         <div class="welcome-intro">
           <img class="brand-logo" src="https://www.kku.ac.th/wp-content/uploads/2022/01/1.-official-logo-2022-27.png" alt="Khon Kaen University logo">
           <p class="eyebrow">DIGITAL TECHNOLOGY OFFICE · KHON KAEN UNIVERSITY</p>
-          <h1 id="welcome-title">KKU IT Support &amp; Ticketing System</h1>
-          <p>แจ้งซ่อมและติดตามสถานะอุปกรณ์และบริการด้านเทคโนโลยีสารสนเทศของมหาวิทยาลัยขอนแก่น</p>
+          <h1 id="welcome-title" data-i18n="headerTitle">KKU IT Support &amp; Ticketing System</h1>
+          <p data-i18n="welcomeSubtitle">Report issues and track the status of information technology equipment and services at Khon Kaen University.</p>
         </div>
         <div class="welcome-login">
-          <p class="demo-note">บัญชีตัวอย่างสำหรับการประเมินเท่านั้น · Demo account picker; this does not authenticate with the university identity provider.</p>
-          <button class="button-primary button-sso" id="sso-login-button" type="button" aria-haspopup="dialog" aria-controls="sso-modal">เข้าสู่ระบบด้วย KKU SSO / OIDC (@kku.ac.th)</button>
+          <p class="demo-note" data-i18n="demoNote">Demo accounts for evaluation only · Select an account to try the system</p>
+          <button class="button-primary button-sso" id="sso-login-button" type="button" aria-haspopup="dialog" aria-controls="sso-modal" data-i18n="ssoLoginButton">Sign in with KKU SSO / OIDC</button>
         </div>
       </div>
     </section>
 
     <section class="view" id="user-view" aria-labelledby="user-page-title">
       <div class="page-heading">
-        <div><p class="eyebrow">USER PORTAL · KKU IT SUPPORT</p><h1 id="user-page-title">Repair Portal</h1><p>สร้างคำขอแจ้งซ่อมและติดตามความคืบหน้าของรายการของคุณ</p></div>
+        <div><p class="eyebrow" data-i18n="userPortal">USER PORTAL · KKU IT SUPPORT</p><h1 id="user-page-title" data-i18n="repairPortal">Repair Portal</h1><p data-i18n="userPortalDescription">Create a repair request and track its status</p></div>
         <div class="today" id="user-date"></div>
       </div>
       <div class="user-layout">
         <section class="card form-card" aria-labelledby="create-ticket-title">
-          <h2 class="section-title" id="create-ticket-title">Create Repair Ticket</h2>
-          <p class="section-description">กรอกรายละเอียดอุปกรณ์และปัญหาที่พบ</p>
+          <h2 class="section-title" id="create-ticket-title" data-i18n="createTicket">Create Repair Ticket</h2>
+          <p class="section-description" data-i18n="formDescription">Enter the device details and describe the issue</p>
           <form id="ticket-form">
-            <div class="field"><label for="device-type">Device / Service <span class="required">*</span></label><select id="device-type" name="device" required><option value="" disabled selected>Select a device or service</option><option>Desktop computer</option><option>Laptop</option><option>Printer</option><option>Projector / Display</option><option>Wi-Fi / Network</option><option>Account / Software</option><option>Other IT equipment</option></select></div>
-            <div class="field"><label for="location">Location / Building <span class="required">*</span></label><input id="location" name="location" maxlength="120" placeholder="Building, floor, and room" required></div>
-            <div class="field"><label for="issue">Issue description <span class="required">*</span></label><textarea id="issue" name="issue" maxlength="500" placeholder="Describe the issue and any troubleshooting already attempted" required></textarea></div>
-            <div class="field"><label for="priority">Priority <span class="required">*</span></label><select id="priority" name="priority" required><option value="Medium" selected>Medium</option><option value="High">High</option><option value="Low">Low</option></select></div>
-            <button class="button-primary full-width" type="submit">Submit repair ticket</button>
+            <div class="field"><label for="device-type"><span data-i18n="form.device">Device / Service</span> <span class="required" aria-hidden="true">*</span></label><select id="device-type" name="device" required><option value="" disabled selected data-i18n="form.selectDevice">Select a device or service</option><option value="Computer">Computer</option><option value="Network">Network</option><option value="Printer">Printer</option><option value="Software">Software</option><option value="Other">Other</option></select></div>
+            <div class="field"><label for="location"><span data-i18n="form.location">Location / Building</span> <span class="required" aria-hidden="true">*</span></label><input id="location" name="location" maxlength="120" placeholder="Building, floor, and room" required></div>
+            <div class="field"><label for="issue"><span data-i18n="form.issue">Issue description</span> <span class="required" aria-hidden="true">*</span></label><textarea id="issue" name="issue" maxlength="500" placeholder="Describe the issue and any error messages" required></textarea></div>
+            <div class="field"><label for="priority"><span data-i18n="form.priority">Priority</span> <span class="required" aria-hidden="true">*</span></label><select id="priority" name="priority" required><option value="Low" data-i18n="form.low">Low</option><option value="Medium" selected data-i18n="form.medium">Medium</option><option value="High" data-i18n="form.high">High</option></select></div>
+            <button class="button-primary full-width" type="submit" data-i18n="buttons.submit">Submit repair ticket</button>
           </form>
         </section>
         <section class="card tickets-card my-tickets" aria-labelledby="my-tickets-title">
-          <div class="tickets-toolbar"><div><h2 id="my-tickets-title">My Tickets</h2><p>รายการแจ้งซ่อมของคุณ</p></div><span class="role-badge" id="my-ticket-count" aria-live="polite"></span></div>
-          <div class="table-scroll" tabindex="0" aria-label="Scrollable list of your repair tickets"><table><thead><tr><th scope="col">Ticket / Date</th><th scope="col">Device / Issue</th><th scope="col">Location</th><th scope="col">Status</th><th scope="col">Technician notes</th><th scope="col">Action</th></tr></thead><tbody id="my-ticket-rows"></tbody></table></div>
-          <div class="empty-state" id="my-empty" hidden><strong>No repair tickets yet</strong>Create a ticket using the form to get started.</div>
+          <div class="tickets-toolbar"><div><h2 id="my-tickets-title" data-i18n="myTickets">My Tickets</h2><p data-i18n="myTicketsDescription">Your repair requests</p></div><span class="role-badge" id="my-ticket-count"></span></div>
+          <div class="table-scroll" tabindex="0" aria-label="Scrollable list of your repair tickets"><table><thead><tr><th scope="col" data-i18n="table.ticketDate">Ticket / Date</th><th scope="col" data-i18n="table.deviceIssue">Device / Issue</th><th scope="col" data-i18n="table.location">Location</th><th scope="col" data-i18n="table.status">Status</th><th scope="col" data-i18n="table.notes">Technician notes</th><th scope="col" data-i18n="table.actions">Actions</th></tr></thead><tbody id="my-ticket-rows"></tbody></table></div>
+          <div class="empty-state" id="my-empty" hidden><strong data-i18n="emptyTicketsTitle">No repair tickets yet</strong><span data-i18n="emptyTicketsDescription">Create a ticket using the form to get started.</span></div>
         </section>
       </div>
     </section>
 
     <section class="view" id="admin-view" aria-labelledby="admin-page-title">
-      <div class="page-heading"><div><p class="eyebrow">IT ADMIN · DIGITAL TECHNOLOGY OFFICE</p><h1 id="admin-page-title">Ticket Administration</h1><p>ตรวจสอบคำขอและจัดการสถานะงานซ่อมของมหาวิทยาลัย</p></div><div class="today" id="admin-date"></div></div>
+      <div class="page-heading"><div><p class="eyebrow" data-i18n="adminEyebrow">IT ADMIN · DIGITAL TECHNOLOGY OFFICE</p><h1 id="admin-page-title" data-i18n="ticketAdministration">Ticket Administration</h1><p data-i18n="adminDescription">Review requests, update statuses, and add technician notes</p></div><div class="today" id="admin-date"></div></div>
       <div class="stats" aria-label="Ticket summary">
-        <article class="card stat-card" style="--stat-color:#A73B24;--stat-bg:rgba(167,59,36,.09)"><div class="stat-top"><span>Total Tickets</span><span class="stat-symbol" aria-hidden="true">▤</span></div><div class="stat-number" id="total-count">0</div><div class="stat-caption">All repair requests</div></article>
-        <article class="card stat-card" style="--stat-color:#B7791F;--stat-bg:#FEF3C7"><div class="stat-top"><span>Pending</span><span class="stat-symbol" aria-hidden="true">◷</span></div><div class="stat-number" id="pending-count">0</div><div class="stat-caption">Awaiting attention</div></article>
-        <article class="card stat-card" style="--stat-color:#2563EB;--stat-bg:#DBEAFE"><div class="stat-top"><span>In Progress</span><span class="stat-symbol" aria-hidden="true">↻</span></div><div class="stat-number" id="progress-count">0</div><div class="stat-caption">Currently being handled</div></article>
-        <article class="card stat-card" style="--stat-color:#16A34A;--stat-bg:#DCFCE7"><div class="stat-top"><span>Completed</span><span class="stat-symbol" aria-hidden="true">✓</span></div><div class="stat-number" id="completed-count">0</div><div class="stat-caption">Successfully resolved</div></article>
+        <article class="card stat-card" style="--stat-color:#A73B24;--stat-bg:rgba(167,59,36,.09)"><div class="stat-top"><span data-i18n="stats.total">Total Tickets</span><span class="stat-symbol" aria-hidden="true">▤</span></div><div class="stat-number" id="total-count">0</div></article>
+        <article class="card stat-card" style="--stat-color:#B7791F;--stat-bg:#FEF3C7"><div class="stat-top"><span data-i18n="stats.pending">Pending</span><span class="stat-symbol" aria-hidden="true">◷</span></div><div class="stat-number" id="pending-count">0</div></article>
+        <article class="card stat-card" style="--stat-color:#2563EB;--stat-bg:#DBEAFE"><div class="stat-top"><span data-i18n="stats.inProgress">In Progress</span><span class="stat-symbol" aria-hidden="true">↻</span></div><div class="stat-number" id="progress-count">0</div></article>
+        <article class="card stat-card" style="--stat-color:#16A34A;--stat-bg:#DCFCE7"><div class="stat-top"><span data-i18n="stats.completed">Completed</span><span class="stat-symbol" aria-hidden="true">✓</span></div><div class="stat-number" id="completed-count">0</div></article>
       </div>
       <section class="card tickets-card" aria-labelledby="all-tickets-title">
-        <div class="admin-toolbar"><div><h2 id="all-tickets-title">All Repair Tickets</h2><p>ค้นหา อัปเดตสถานะ และเพิ่มบันทึกสำหรับทีมช่าง</p></div><div class="filter-controls"><label class="sr-only" for="admin-search">Search repair tickets</label><input id="admin-search" type="search" placeholder="Search ID, reporter, device, or issue"><label class="sr-only" for="admin-status-filter">Filter by ticket status</label><select id="admin-status-filter"><option value="all">All statuses</option><option value="Pending">Pending</option><option value="In Progress">In Progress</option><option value="Completed">Completed</option></select></div></div>
-        <div class="table-scroll" tabindex="0" aria-label="Scrollable administration ticket table"><table class="admin-table"><thead><tr><th scope="col">Ticket / Reporter</th><th scope="col">Device / Issue</th><th scope="col">Location</th><th scope="col">Priority</th><th scope="col">Date</th><th scope="col">Status</th><th scope="col">Technician notes</th><th scope="col">Action</th></tr></thead><tbody id="admin-ticket-rows"></tbody></table></div>
-        <div class="empty-state" id="admin-empty" hidden><strong>No matching tickets</strong>Try changing the search text or status filter.</div>
-        <div class="table-footer"><span id="admin-result-count" aria-live="polite"></span><span>Changes are saved in this browser's local storage.</span></div>
+        <div class="admin-toolbar"><div><h2 id="all-tickets-title" data-i18n="allTickets">All Repair Tickets</h2><p data-i18n="allTicketsDescription">Search, update statuses, and add technician notes</p></div><div class="filter-controls"><input id="admin-search" type="search" placeholder="Search repair tickets" aria-label="Search repair tickets"><select id="admin-status-filter" aria-label="Filter by status"><option value="all" data-i18n="allStatuses">All statuses</option><option value="Pending">Pending</option><option value="In Progress">In Progress</option><option value="Completed">Completed</option></select></div></div>
+        <div class="table-scroll" tabindex="0" aria-label="Scrollable administration ticket table"><table class="admin-table"><thead><tr><th scope="col" data-i18n="table.ticketDate">Ticket / Reporter</th><th scope="col" data-i18n="table.deviceIssue">Device / Issue</th><th scope="col" data-i18n="table.location">Location</th><th scope="col">Priority</th><th scope="col">Date</th><th scope="col">Status</th><th scope="col" data-i18n="table.notes">Technician notes</th><th scope="col" data-i18n="table.actions">Actions</th></tr></thead><tbody id="admin-ticket-rows"></tbody></table></div>
+        <div class="empty-state" id="admin-empty" hidden><strong data-i18n="emptySearchTitle">No matching tickets</strong><span data-i18n="emptySearchDescription">Try changing the search text or status filter.</span></div>
+        <div class="table-footer"><span id="admin-result-count" aria-live="polite"></span><span data-i18n="savedInBrowser">Changes are saved in this browser's local storage.</span></div>
       </section>
     </section>
-    <footer>สำนักเทคโนโลยีดิจิทัล มหาวิทยาลัยขอนแก่น · Digital Technology Office, Khon Kaen University</footer>
+    <footer data-i18n="footer">Digital Technology Office, Khon Kaen University</footer>
   </main>
 
   <div class="modal-backdrop" id="sso-modal" role="dialog" aria-modal="true" aria-labelledby="sso-modal-title" aria-describedby="sso-modal-description" hidden>
     <section class="sso-modal-panel">
-      <button class="modal-close" id="sso-modal-close" type="button" aria-label="Close account selection">&times;</button>
+      <button class="modal-close" id="sso-modal-close" type="button" aria-label="Close account selection" data-i18n="sso.closeAccountSelection">&times;</button>
       <p class="eyebrow">KKU SSO / OIDC</p>
-      <h2 id="sso-modal-title">เลือกบัญชีเพื่อเข้าสู่ระบบ</h2>
-      <p id="sso-modal-description" class="section-description">เลือกบัญชีตัวอย่าง · Demo account selection only; no real authentication is performed.</p>
+      <h2 id="sso-modal-title" data-i18n="sso.title">Choose an account to sign in</h2>
+      <p id="sso-modal-description" class="section-description" data-i18n="sso.description">Demo account selection only · No real authentication is performed</p>
       <div class="account-cards" id="sso-account-cards"></div>
     </section>
   </div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <style>.button-language{flex:0 0 auto;padding:5px 9px;border:1px solid rgba(255,255,255,.65);border-radius:7px;background:transparent;color:#fff;font-size:12px;font-weight:600;line-height:1.2}.button-language:hover{background:rgba(255,255,255,.12)}</style>
 </body>
 </html>
