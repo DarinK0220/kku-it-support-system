@@ -1,1 +1,295 @@
-placeholder
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#A73B24">
+  <title>ระบบสนับสนุนด้านเทคโนโลยีสารสนเทศ | มหาวิทยาลัยขอนแก่น</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --kku-red: #A73B24;
+      --kku-red-dark: #7A2817;
+      --kku-gold: #D4AF37;
+      --page: #F8F9FA;
+      --surface: #FFFFFF;
+      --text: #1F2937;
+      --muted: #596273;
+      --border: rgba(31, 41, 55, 0.12);
+      --shadow: 0 4px 12px rgba(31, 41, 55, 0.08);
+      font-family: "Prompt", "Sarabun", "Inter", sans-serif;
+      color: var(--text);
+      background: var(--page);
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; min-width: 320px; min-height: 100vh; background: var(--page); line-height: 1.5; }
+    button, select { font: inherit; }
+    button { cursor: pointer; }
+    button:disabled, select:disabled { cursor: not-allowed; opacity: 0.6; }
+    :focus-visible { outline: 3px solid rgba(212, 175, 55, 0.75); outline-offset: 3px; }
+
+    .site-header { background: var(--kku-red); color: #fff; border-bottom: 4px solid var(--kku-gold); }
+    .header-inner { width: min(1120px, calc(100% - 40px)); min-height: 84px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: flex; align-items: center; gap: 14px; min-width: 0; }
+    .brand-logo { width: 48px; height: 48px; object-fit: contain; flex: 0 0 48px; background: #fff; border-radius: 50%; }
+    .brand-copy { min-width: 0; }
+    .university-name { margin: 0; font-size: 15px; font-weight: 600; }
+    .application-name { margin: 2px 0 0; font-size: 13px; color: rgba(255,255,255,.88); }
+    .header-account { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px; }
+    .account-badge, .role-badge { display: inline-flex; align-items: center; min-height: 32px; border-radius: 999px; padding: 5px 11px; font-size: 13px; font-weight: 600; overflow-wrap: anywhere; }
+    .account-badge { background: #fff; color: var(--kku-red-dark); }
+    .role-badge { color: #fff; background: rgba(31, 41, 55, .28); border: 1px solid rgba(255,255,255,.38); }
+    .header-logout { color: #fff; background: transparent; border: 1px solid rgba(255,255,255,.7); border-radius: 8px; padding: 7px 12px; font-weight: 600; }
+    .header-logout:hover { background: rgba(255,255,255,.12); }
+
+    main { width: min(1120px, calc(100% - 40px)); margin: 0 auto; padding: 56px 0 72px; }
+    .welcome-layout { width: min(100%, 620px); margin: 0 auto; }
+    .welcome-card, .signed-in-card { background: var(--surface); border: 1px solid rgba(31, 41, 55, .08); border-radius: 12px; box-shadow: var(--shadow); }
+    .welcome-card { padding: clamp(24px, 5vw, 44px); }
+    .eyebrow { margin: 0 0 10px; color: var(--kku-red); font-size: 14px; font-weight: 600; }
+    h1 { margin: 0; color: var(--text); font-size: clamp(28px, 5vw, 36px); line-height: 1.25; font-weight: 700; }
+    .intro { margin: 14px 0 28px; color: var(--muted); font-size: 16px; line-height: 1.7; }
+    .button-primary { width: 100%; min-height: 54px; display: inline-flex; justify-content: center; align-items: center; gap: 10px; padding: 12px 18px; color: #fff; background: var(--kku-red); border: 1px solid var(--kku-red); border-radius: 8px; font-weight: 600; text-align: center; transition: background-color .15s ease, border-color .15s ease; }
+    .button-primary:hover { background: var(--kku-red-dark); border-color: var(--kku-red-dark); }
+    .button-primary:focus-visible { outline: 3px solid rgba(212, 175, 55, .55); outline-offset: 2px; }
+    .button-icon { width: 20px; height: 20px; flex: 0 0 20px; }
+    .simulation-note { margin: 12px 0 0; color: var(--muted); font-size: 13px; text-align: center; }
+    .divider { display: flex; align-items: center; gap: 14px; margin: 28px 0 22px; color: var(--muted); font-size: 13px; }
+    .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+    .fallback-title { margin: 0 0 4px; font-size: 18px; font-weight: 600; }
+    .fallback-copy { margin: 0 0 16px; color: var(--muted); font-size: 14px; }
+    .field-label { display: block; margin: 0 0 7px; font-size: 14px; font-weight: 600; }
+    .select-control { width: 100%; min-height: 48px; padding: 10px 38px 10px 12px; color: var(--text); background: #fff; border: 1px solid #9AA3AF; border-radius: 8px; }
+    .select-control:hover { border-color: var(--kku-red); }
+    .manual-button { width: 100%; min-height: 46px; margin-top: 12px; color: var(--kku-red); background: #fff; border: 1px solid var(--kku-red); border-radius: 8px; font-weight: 600; }
+    .manual-button:hover:not(:disabled) { background: #FFF7F5; }
+    .manual-button:disabled { color: #596273; border-color: #9AA3AF; }
+    .trust-note { margin: 20px 0 0; padding-top: 16px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; line-height: 1.65; }
+
+    .signed-in-card { padding: 32px; }
+    .signed-in-card h1 { font-size: 28px; }
+    .signed-in-card p { color: var(--muted); }
+    .account-summary { margin-top: 20px; padding: 16px; background: var(--page); border-radius: 8px; }
+    .account-summary p { margin: 5px 0; }
+
+    .modal-backdrop { position: fixed; inset: 0; z-index: 10; display: grid; place-items: center; padding: 20px; background: rgba(17, 24, 39, .58); }
+    .modal-backdrop[hidden], [hidden] { display: none !important; }
+    .account-modal { width: min(100%, 520px); max-height: min(90vh, 760px); overflow-y: auto; padding: 26px; background: #fff; border: 1px solid rgba(31, 41, 55, .12); border-radius: 12px; box-shadow: 0 18px 48px rgba(17, 24, 39, .24); }
+    .modal-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+    .modal-heading h2 { margin: 0; font-size: 24px; line-height: 1.3; }
+    .modal-heading p { margin: 7px 0 18px; color: var(--muted); font-size: 14px; }
+    .icon-button { display: inline-grid; place-items: center; width: 38px; height: 38px; flex: 0 0 38px; color: var(--text); background: #fff; border: 1px solid var(--border); border-radius: 8px; font-size: 23px; line-height: 1; }
+    .icon-button:hover { background: var(--page); }
+    .evaluation-alert { margin: 0 0 18px; padding: 12px 14px; color: #573F00; background: #FFF8E1; border: 1px solid #E8D48A; border-radius: 8px; font-size: 13px; line-height: 1.6; }
+    .account-list { display: grid; gap: 10px; }
+    .account-option { width: 100%; padding: 14px; color: var(--text); background: #fff; border: 1px solid var(--border); border-radius: 8px; text-align: left; }
+    .account-option:hover { border-color: var(--kku-red); background: #FFF9F7; }
+    .option-email { display: block; color: var(--kku-red-dark); font-size: 16px; font-weight: 600; overflow-wrap: anywhere; }
+    .option-detail { display: block; margin-top: 4px; color: var(--muted); font-size: 13px; }
+    .modal-footnote { margin: 16px 0 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
+    footer { padding: 20px; color: var(--muted); font-size: 13px; text-align: center; }
+
+    @media (max-width: 640px) {
+      .header-inner { width: min(100% - 28px, 1120px); min-height: 76px; gap: 12px; }
+      .brand { gap: 10px; }
+      .brand-logo { width: 42px; height: 42px; flex-basis: 42px; }
+      .university-name { font-size: 13px; }
+      .application-name { font-size: 11px; }
+      .header-account { gap: 5px; }
+      .account-badge, .role-badge { min-height: 28px; padding: 4px 8px; font-size: 11px; }
+      .header-logout { padding: 5px 8px; font-size: 12px; }
+      main { width: min(100% - 28px, 1120px); padding: 32px 0 48px; }
+      .welcome-card { padding: 24px 20px; }
+      .account-modal { padding: 20px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <img class="brand-logo" src="https://www.kku.ac.th/wp-content/uploads/2022/01/1.-official-logo-2022-27.png" alt="Khon Kaen University logo" width="48" height="48">
+        <div class="brand-copy">
+          <p class="university-name">มหาวิทยาลัยขอนแก่น</p>
+          <p class="application-name">ระบบสนับสนุนด้านเทคโนโลยีสารสนเทศ</p>
+        </div>
+      </div>
+      <div class="header-account" id="header-account" aria-live="polite" hidden>
+        <span class="account-badge" id="header-email"></span>
+        <span class="role-badge" id="header-role"></span>
+        <button class="header-logout" id="logout-button" type="button">ออกจากระบบ / เปลี่ยนบัญชี</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="welcome-layout" id="welcome-view" aria-labelledby="welcome-title">
+      <div class="welcome-card">
+        <p class="eyebrow">KKU IT SUPPORT</p>
+        <h1 id="welcome-title">ยินดีต้อนรับ</h1>
+        <p class="intro">เข้าสู่ระบบเพื่อใช้งานบริการสนับสนุนด้านเทคโนโลยีสารสนเทศของมหาวิทยาลัยขอนแก่น</p>
+
+        <button class="button-primary" id="sso-button" type="button" aria-haspopup="dialog" aria-controls="account-picker">
+          <svg class="button-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 3 4.5 6v5.2c0 4.7 3.2 8.6 7.5 9.8 4.3-1.2 7.5-5.1 7.5-9.8V6L12 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+            <path d="m9 12 2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>เข้าสู่ระบบด้วย KKU SSO / OIDC (@kku.ac.th)</span>
+        </button>
+        <p class="simulation-note">ต้นแบบนี้ใช้ตัวเลือกบัญชีจำลองเพื่อการประเมินเท่านั้น ไม่ใช่การยืนยันตัวตน KKU จริง</p>
+
+        <div class="divider" aria-hidden="true">หรือ</div>
+        <h2 class="fallback-title">เข้าสู่ระบบแบบเลือกบัญชี</h2>
+        <p class="fallback-copy">ตัวเลือกสำรองสำหรับการทดสอบ โดยไม่ต้องเชื่อมต่อผู้ให้บริการ SSO</p>
+        <label class="field-label" for="manual-account">เลือกบัญชีตัวอย่าง</label>
+        <select class="select-control" id="manual-account">
+          <option value="" selected disabled>เลือกบัญชีเพื่อดำเนินการต่อ</option>
+          <option value="darin">darin.ku@kku.ac.th — IT Admin</option>
+          <option value="somchai">somchai.w@kku.ac.th — Staff User</option>
+          <option value="student">student.demo@kkumail.com — Student User</option>
+        </select>
+        <button class="manual-button" id="manual-login-button" type="button" disabled>เข้าสู่ระบบด้วยบัญชีที่เลือก</button>
+        <p class="trust-note">ระบบจริงควรใช้ KKU SSO / OIDC และตรวจสอบสิทธิ์จากข้อมูลยืนยันตัวตนที่ผ่านการตรวจสอบฝั่งเซิร์ฟเวอร์ ต้นแบบนี้ไม่มีการเก็บรหัสผ่านหรือบันทึกเซสชัน</p>
+      </div>
+    </section>
+
+    <section class="welcome-layout" id="signed-in-view" aria-labelledby="signed-in-title" hidden>
+      <div class="signed-in-card">
+        <p class="eyebrow">บัญชีตัวอย่างสำหรับการประเมิน</p>
+        <h1 id="signed-in-title">เข้าสู่หน้าทดสอบแล้ว</h1>
+        <p>การเข้าสู่ระบบนี้เป็นเพียงการจำลองในเบราว์เซอร์ ไม่ใช่การยืนยันตัวตน KKU จริง</p>
+        <div class="account-summary">
+          <p><strong>อีเมล:</strong> <span id="summary-email"></span></p>
+          <p><strong>บทบาท:</strong> <span id="summary-role"></span></p>
+          <p><strong>หน่วยงาน:</strong> <span id="summary-unit"></span></p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>มหาวิทยาลัยขอนแก่น · ระบบสนับสนุนด้านเทคโนโลยีสารสนเทศ</footer>
+
+  <div class="modal-backdrop" id="account-picker" hidden>
+    <section class="account-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-description">
+      <div class="modal-heading">
+        <div>
+          <h2 id="modal-title">เลือกบัญชี KKU</h2>
+          <p id="modal-description">เลือกบัญชีต��วอย่างเพื่อทดสอบหน้าจอเข้าสู่ระบบ</p>
+        </div>
+        <button class="icon-button" id="close-modal-button" type="button" aria-label="ปิดหน้าต่าง">×</button>
+      </div>
+      <p class="evaluation-alert"><strong>โหมดจำลองเพื่อการประเมินเท่านั้น</strong><br>หน้าต่างนี้ไม่เชื่อมต่อ KKU SSO / OIDC และไม่ได้ยืนยันตัวตนจริง ห้ามใช้แทนระบบสำหรับใช้งานจริง</p>
+      <div class="account-list" role="group" aria-label="บัญชีตัวอย่าง">
+        <button class="account-option" type="button" data-account="darin">
+          <span class="option-email">darin.ku@kku.ac.th</span>
+          <span class="option-detail">IT Admin · สำนักเทคโนโลยีดิจิทัล</span>
+        </button>
+        <button class="account-option" type="button" data-account="somchai">
+          <span class="option-email">somchai.w@kku.ac.th</span>
+          <span class="option-detail">Staff User · คณะวิศวกรรมศาสตร์</span>
+        </button>
+        <button class="account-option" type="button" data-account="student">
+          <span class="option-email">student.demo@kkumail.com</span>
+          <span class="option-detail">Student User · คณะวิทยาศาสตร์</span>
+        </button>
+      </div>
+      <p class="modal-footnote">การเลือกบัญชีจะแสดงข้อมูลตัวอย่างในหน้านี้เท่านั้น ไม่มีการส่งข้อมูลไปยังผู้ให้บริการหรือจัดเก็บข้อมูลเข้าสู่ระบบ</p>
+    </section>
+  </div>
+
+  <script>
+    (() => {
+      const accounts = {
+        darin: { email: 'darin.ku@kku.ac.th', role: 'IT Admin', unit: 'สำนักเทคโนโลยีดิจิทัล' },
+        somchai: { email: 'somchai.w@kku.ac.th', role: 'Staff User', unit: 'คณะวิศวกรรมศาสตร์' },
+        student: { email: 'student.demo@kkumail.com', role: 'Student User', unit: 'คณะวิทยาศาสตร์' }
+      };
+      const welcomeView = document.getElementById('welcome-view');
+      const signedInView = document.getElementById('signed-in-view');
+      const picker = document.getElementById('account-picker');
+      const ssoButton = document.getElementById('sso-button');
+      const closeModalButton = document.getElementById('close-modal-button');
+      const manualAccount = document.getElementById('manual-account');
+      const manualLoginButton = document.getElementById('manual-login-button');
+      const headerAccount = document.getElementById('header-account');
+      let previousFocus = null;
+
+      function showAccount(accountId) {
+        const account = accounts[accountId];
+        if (!account) return;
+        document.getElementById('header-email').textContent = account.email;
+        document.getElementById('header-role').textContent = account.role;
+        document.getElementById('summary-email').textContent = account.email;
+        document.getElementById('summary-role').textContent = account.role;
+        document.getElementById('summary-unit').textContent = account.unit;
+        welcomeView.hidden = true;
+        signedInView.hidden = false;
+        headerAccount.hidden = false;
+        closePicker();
+        document.getElementById('signed-in-title').focus?.();
+      }
+
+      function openPicker() {
+        previousFocus = document.activeElement;
+        picker.hidden = false;
+        document.querySelector('.account-option').focus();
+      }
+
+      function closePicker() {
+        picker.hidden = true;
+        if (previousFocus && typeof previousFocus.focus === 'function') previousFocus.focus();
+      }
+
+      function logout() {
+        // This prototype keeps no persisted session data; reset all account-specific UI.
+        document.getElementById('header-email').textContent = '';
+        document.getElementById('header-role').textContent = '';
+        document.getElementById('summary-email').textContent = '';
+        document.getElementById('summary-role').textContent = '';
+        document.getElementById('summary-unit').textContent = '';
+        headerAccount.hidden = true;
+        signedInView.hidden = true;
+        welcomeView.hidden = false;
+        manualAccount.value = '';
+        manualLoginButton.disabled = true;
+        ssoButton.focus();
+      }
+
+      ssoButton.addEventListener('click', openPicker);
+      closeModalButton.addEventListener('click', closePicker);
+      picker.addEventListener('click', (event) => {
+        if (event.target === picker) closePicker();
+      });
+      picker.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') closePicker();
+        if (event.key === 'Tab') {
+          const focusable = [...picker.querySelectorAll('button:not(:disabled)')];
+          const first = focusable[0];
+          const last = focusable[focusable.length - 1];
+          if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            last.focus();
+          } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first.focus();
+          }
+        }
+      });
+      document.querySelectorAll('[data-account]').forEach((button) => {
+        button.addEventListener('click', () => showAccount(button.dataset.account));
+      });
+      manualAccount.addEventListener('change', () => {
+        manualLoginButton.disabled = !accounts[manualAccount.value];
+      });
+      manualLoginButton.addEventListener('click', () => showAccount(manualAccount.value));
+      document.getElementById('logout-button').addEventListener('click', logout);
+    })();
+  </script>
+</body>
+</html>
