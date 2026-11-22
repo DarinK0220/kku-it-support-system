@@ -147,7 +147,12 @@
   function statusClass(status) {
     return ({ Pending: 'status-pending', 'In Progress': 'status-in-progress', Completed: 'status-completed' })[status] || 'status-pending';
   }
+  function statusSelectClass(status) {
+    return ({ Pending: 'status-select-pending', 'In Progress': 'status-select-in-progress', Completed: 'status-select-completed' })[status] || 'status-select-pending';
+  }
   function statusLabel(status) {
+    const language = document.documentElement.lang || 'th';
+    if (language === 'en') return status;
     return ({ Pending: 'รอดำเนินการ', 'In Progress': 'กำลังดำเนินการ', Completed: 'เสร็จสิ้น' })[status] || status;
   }
   function priorityClass(priority) {
@@ -226,9 +231,9 @@
         <td><span class="priority-badge ${priorityClass(ticket.priority)}">${esc(ticket.priority)}</span></td>
         <td>${dateLabel(ticket.date)}</td>
         <td><label class="sr-only" for="status-${esc(ticket.id)}">Update status for ${esc(ticket.id)}</label>
-          <select id="status-${esc(ticket.id)}" data-status="${esc(ticket.id)}" aria-label="Update status for ${esc(ticket.id)}">
+          <select id="status-${esc(ticket.id)}" class="${statusSelectClass(ticket.status)}" data-status="${esc(ticket.id)}" aria-label="Update status for ${esc(ticket.id)}">
             ${STATUSES.map((status) => `<option value="${status}"${ticket.status === status ? ' selected' : ''}>${esc(statusLabel(status))}</option>`).join('')}
-          </select><span class="subtext"><span class="status-badge ${statusClass(ticket.status)}">${esc(statusLabel(ticket.status))}</span></span></td>
+          </select></td>
         <td><input class="note-input" type="text" maxlength="240" value="${esc(ticket.notes)}" data-note="${esc(ticket.id)}" aria-label="Technician notes for ${esc(ticket.id)}" placeholder="Add technician notes">
           <button class="button-secondary button-small save-note" type="button" data-save-note="${esc(ticket.id)}">Save note</button></td>
         <td><button class="button-danger button-small" type="button" data-delete="${esc(ticket.id)}">Delete</button></td>
@@ -347,6 +352,8 @@
       adminRows.addEventListener('change', (event) => {
         const select = event.target.closest('[data-status]');
         if (!select || currentUser?.role !== 'admin' || !STATUSES.includes(select.value)) return;
+        select.classList.remove('status-select-pending', 'status-select-in-progress', 'status-select-completed');
+        select.classList.add(statusSelectClass(select.value));
         const ticket = tickets.find((item) => item.id === select.dataset.status);
         if (!ticket) return;
         ticket.status = select.value; save(); renderAdmin(); showToast(`Status updated for ${ticket.id}.`);
