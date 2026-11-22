@@ -52,7 +52,7 @@ const TRANSLATIONS = {
     stats: {
       total: 'รายการทั้งหมด',
       pending: 'รอดำเนินการ',
-      inProgress: 'กำลังดำเนินก���ร',
+      inProgress: 'กำลังดำเนินการ',
       completed: 'เสร็จสิ้น'
     },
     allTickets: 'รายการแจ้งซ่อมทั้งหมด',
@@ -74,7 +74,7 @@ const TRANSLATIONS = {
       saveNote: 'บันทึกหมายเหตุ',
       delete: 'ลบ',
       close: 'ปิด',
-      updateStatus: '��ัปเดตสถานะ'
+      updateStatus: 'อัปเดตสถานะ'
     },
     sso: {
       title: 'เลือกบัญชีเพื่อเข้าสู่ระบบ',
@@ -166,6 +166,35 @@ const TRANSLATIONS = {
 };
 
 const LANGUAGE_STORAGE_KEY = 'kku-it-support-language';
+const TABLE_HEADER_KEYS = {
+  priority: ['Priority', 'ความสำคัญ'],
+  date: ['Date', 'วันที่'],
+  status: ['Status', 'สถานะ']
+};
+const STATUS_KEYS = {
+  Pending: 'pending',
+  'In Progress': 'inProgress',
+  Completed: 'completed'
+};
+
+function translateDynamicContent(language) {
+  const translations = TRANSLATIONS[language];
+
+  document.querySelectorAll('thead th').forEach((header) => {
+    const key = Object.keys(TABLE_HEADER_KEYS).find((name) =>
+      TABLE_HEADER_KEYS[name].includes(header.textContent.trim())
+    );
+    if (key) header.textContent = translations.table[key];
+  });
+
+  document.querySelectorAll('.status-badge, select[data-status] option').forEach((element) => {
+    const status = element.matches('option') ? element.value : element.textContent.trim();
+    const key = STATUS_KEYS[status] || Object.keys(STATUS_KEYS).find((englishStatus) =>
+      TRANSLATIONS.th.statuses[STATUS_KEYS[englishStatus]] === status
+    );
+    if (key) element.textContent = translations.statuses[key];
+  });
+}
 
 function setLanguage(lang) {
   const language = Object.prototype.hasOwnProperty.call(TRANSLATIONS, lang) ? lang : 'th';
@@ -175,6 +204,7 @@ function setLanguage(lang) {
     const value = element.dataset.i18n.split('.').reduce((entry, key) => entry?.[key], translations);
     if (typeof value === 'string') element.textContent = value;
   });
+  translateDynamicContent(language);
 
   document.documentElement.lang = language;
   try {
@@ -183,6 +213,23 @@ function setLanguage(lang) {
     console.warn('Could not persist the selected language.', error);
   }
   return language;
+}
+
+// Translate statuses as app.js inserts or refreshes ticket rows.
+if (typeof document !== 'undefined') {
+  const statusObserver = new MutationObserver(() => {
+    translateDynamicContent(document.documentElement.lang || 'th');
+  });
+  statusObserver.observe(document.documentElement, { childList: true, subtree: true });
+  document.addEventListener('DOMContentLoaded', () => {
+    let savedLanguage = 'th';
+    try {
+      savedLanguage = window.localStorage.getItem(LANGUAGE_STORAGE_KEY) || 'th';
+    } catch (error) {
+      console.warn('Could not read the saved language.', error);
+    }
+    setLanguage(savedLanguage);
+  });
 }
 
 // Expose the translation data and function for the UI and other scripts.
