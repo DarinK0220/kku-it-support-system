@@ -622,21 +622,21 @@ tbody tr:hover {
 }
 
 .admin-table select.status-select-pending {
-  background: #FEF3C7;
-  color: #854D0E;
-  border-color: #FEF3C7;
+  background: #FFFFFF;
+  color: var(--text);
+  border: 2px solid #F59E0B;
 }
 
 .admin-table select.status-select-in-progress {
-  background: #DBEAFE;
-  color: #1D4ED8;
-  border-color: #DBEAFE;
+  background: #FFFFFF;
+  color: var(--text);
+  border: 2px solid #2563EB;
 }
 
 .admin-table select.status-select-completed {
-  background: #DCFCE7;
-  color: #166534;
-  border-color: #DCFCE7;
+  background: #FFFFFF;
+  color: var(--text);
+  border: 2px solid #16A34A;
 }
 
 .note-input {
@@ -1018,5 +1018,56 @@ footer {
 
   .page-heading h1 {
     font-size: 25px;
+  }
+
+  .today {
+    padding: 0;
+    text-align: left;
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .stat-card {
+    padding: 12px;
+  }
+
+  .stat-top {
+    font-size: 11px;
+  }
+
+  .stat-number {
+    font-size: 24px;
+  }
+
+  .stat-caption {
+    font-size: 11px;
+  }
+
+  .filter-controls {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .filter-controls input,
+  .filter-controls select {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .tickets-toolbar,
+  .admin-toolbar {
+    padding: 15px;
+  }
+
+  .form-card {
+    padding: 19px 16px;
+  }
+
+  .table-footer {
+    align-items: flex-start;
+    flex-direction: column;
   }
 }
