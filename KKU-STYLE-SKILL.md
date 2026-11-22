@@ -52,6 +52,29 @@ Maintain sufficient contrast and line spacing. For Thai-language interfaces, fav
 
 - Use a clean, institutional header with recognizable KKU-style branding.
 - Place the university name and application name prominently.
+- Use the official KKU logo in the branding area:
+
+```text
+https://www.kku.ac.th/wp-content/uploads/2022/01/1.-official-logo-2022-27.png
+```
+
+```html
+<img
+  src="https://www.kku.ac.th/wp-content/uploads/2022/01/1.-official-logo-2022-27.png"
+  alt="Khon Kaen University logo"
+  class="brand-logo"
+>
+```
+
+```css
+.brand-logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  flex: 0 0 48px;
+}
+```
+
 - Use the Brick Red color for the branding bar or primary header structure.
 - Keep navigation concise, legible, and consistently positioned.
 - Use Gold only as an accent, not as a dominant background color.
@@ -148,5 +171,6 @@ Recommended badge styling:
 - Use visible keyboard focus styles.
 - Preserve semantic HTML and a logical heading hierarchy.
 - Keep form labels visible and associate them with their controls.
+- Use meaningful alt text for the official KKU logo.
 - Respect reduced-motion preferences and avoid unnecessary animation.
 - Use the same component patterns and spacing throughout the application.
