@@ -58,7 +58,7 @@
   }
 
   function validTickets(value) {
-    return Array.isArray(value) && value.every((ticket) => ticket &&
+    return Array.isArray(value) && value.length > 0 && value.every((ticket) => ticket &&
       typeof ticket.id === 'string' && typeof ticket.reporter === 'string' &&
       typeof ticket.department === 'string' && STATUSES.includes(ticket.status));
   }
@@ -147,11 +147,11 @@
   function statusClass(status) {
     return ({ Pending: 'status-pending', 'In Progress': 'status-in-progress', Completed: 'status-completed' })[status] || 'status-pending';
   }
+  function statusSelectClass(status) {
+    return ({ Pending: 'status-select-pending', 'In Progress': 'status-select-in-progress', Completed: 'status-select-completed' })[status] || 'status-select-pending';
+  }
   function statusLabel(status) {
     return ({ Pending: 'รอดำเนินการ', 'In Progress': 'กำลังดำเนินการ', Completed: 'เสร็จสิ้น' })[status] || status;
-  }
-  function priorityClass(priority) {
-    return ({ High: 'priority-high', Medium: 'priority-medium', Low: 'priority-low' })[priority] || 'priority-medium';
   }
 
   function setView(viewId) {
@@ -225,9 +225,9 @@
         <td>${esc(ticket.location)}</td>
         <td>${dateLabel(ticket.date)}</td>
         <td><label class="sr-only" for="status-${esc(ticket.id)}">Update status for ${esc(ticket.id)}</label>
-          <select id="status-${esc(ticket.id)}" data-status="${esc(ticket.id)}" aria-label="Update status for ${esc(ticket.id)}">
+          <select id="status-${esc(ticket.id)}" class="${statusSelectClass(ticket.status)}" data-status="${esc(ticket.id)}" aria-label="Update status for ${esc(ticket.id)}">
             ${STATUSES.map((status) => `<option value="${status}"${ticket.status === status ? ' selected' : ''}>${esc(statusLabel(status))}</option>`).join('')}
-          </select><span class="subtext"><span class="status-badge ${statusClass(ticket.status)}">${esc(statusLabel(ticket.status))}</span></span></td>
+          </select></td>
         <td><input class="note-input" type="text" maxlength="240" value="${esc(ticket.notes)}" data-note="${esc(ticket.id)}" aria-label="Technician notes for ${esc(ticket.id)}" placeholder="Add technician note">
           <button class="button-secondary button-small save-note" type="button" data-save-note="${esc(ticket.id)}">Save note</button></td>
         <td><button class="button-danger button-small" type="button" data-delete="${esc(ticket.id)}">Delete</button></td>
