@@ -188,4 +188,24 @@ footer { margin-top: 30px; padding-top: 16px; border-top: 1px solid var(--line);
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+
+html,
+body {
+  box-sizing: border-box;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+main.page,
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+}
 }
