@@ -173,7 +173,7 @@ Use a standardized, visible dropdown for KKU faculty, office, and department sel
 <select id="kku-unit" name="department" required>
   <option value="" disabled selected>Select a KKU unit</option>
   <option value="สำนักเทคโนโลยีดิจิทัล">สำนักเทคโนโลยีดิจิทัล</option>
-  <option value="สำนักบริหารและพัฒนาวิชาการ">สำ��ักบริหารและพัฒนาวิชาการ</option>
+  <option value="สำนักบริหารและพัฒนาวิชาการ">สำนักบริหารและพัฒนาวิชาการ</option>
   <option value="สำนักหอสมุด">สำนักหอสมุด</option>
   <option value="คณะวิศวกรรมศาสตร์">คณะวิศวกรรมศาสตร์</option>
   <option value="คณะวิทยาศาสตร์">คณะวิทยาศาสตร์</option>
@@ -191,7 +191,20 @@ Use a standardized, visible dropdown for KKU faculty, office, and department sel
 - Populate unit lists from a shared source or central configuration when multiple forms need the same options; do not maintain divergent copies across pages.
 - This is a baseline list for common KKU units, not a substitute for checking the current official university directory before production use.
 
-## 5. Accessibility and Consistency
+## 5. KKU Authentication Standard (OIDC / KKU SSO)
+
+KKU applications must authenticate users with Khon Kaen University's OpenID Connect (OIDC) / Google Workspace KKU SSO identity provider. Do not collect or manage university passwords in application forms.
+
+- Staff and administrator accounts use `@kku.ac.th` identities.
+- Student accounts use `@kkumail.com` identities.
+- The institutional login button must be prominent and identify the OIDC/KKU SSO provider.
+- Preserve server-side role authorization based on validated OIDC claims and approved faculty/unit mappings; never trust a role or email supplied only by browser UI.
+- Display the authenticated email as a compact header badge and retain the role badge separately.
+- When an actual OIDC provider is unavailable, local prototypes may provide an explicitly labeled account-picker simulation for evaluation only.
+- Simulated authentication must never be described as real university authentication or enabled for production.
+- On logout or role switch, clear the current application session, remove persisted session data, hide profile, email, role, and logout controls, and return to the welcome view.
+
+## 6. Accessibility and Consistency
 
 - Maintain WCAG-compatible text and UI contrast.
 - Do not communicate status by color alone; always include text or an icon.
